@@ -11,4 +11,12 @@
 -keep class com.swmansion.reanimated.** { *; }
 -keep class com.facebook.react.turbomodule.** { *; }
 
+# Suppress warnings for react-native-screens
+-dontwarn com.swmansion.rnscreens.**
+-keep class com.swmansion.rnscreens.** { *; }
+
+# Suppress general deprecation warnings
+-dontwarn androidx.**
+-dontwarn com.facebook.react.**
+
 # Add any project specific keep options here:

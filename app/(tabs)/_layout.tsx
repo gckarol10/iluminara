@@ -44,7 +44,7 @@ export default function TabLayout() {
         name="funds"
         options={{
           title: 'Solicitações',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="creditcard.fill" color={color} />,
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="hand.raised.fill" color={color} />,
         }}
       />
       <Tabs.Screen

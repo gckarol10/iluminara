@@ -68,7 +68,7 @@ export default function HomeScreen() {
         {/* Disaster Information */}
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Informações de Incidentes 🔥</Text>
+            <Text style={styles.sectionTitle}>Solicitações 📍</Text>
             <TouchableOpacity>
               <Text style={styles.seeAllText}>Ver Todos</Text>
             </TouchableOpacity>
@@ -90,7 +90,7 @@ export default function HomeScreen() {
           <TouchableOpacity style={styles.mapContainer} onPress={handleLocationPicker}>
             <View style={styles.mapPlaceholder}>
               <Ionicons name="location" size={40} color="#ff4444" />
-              <Text style={styles.mapTitle}>Falta de energia Bairro São Francisco</Text>
+              <Text style={styles.mapTitle}>Bairro São Francisco, Araçuaí MG</Text>
               <Text style={styles.mapDate}>📅 Dom, 11 Junho 2024  🕒 3 min atrás</Text>
             </View>
           </TouchableOpacity>
@@ -100,12 +100,12 @@ export default function HomeScreen() {
         <View style={styles.quickActionsContainer}>
           <TouchableOpacity style={styles.reportButton} onPress={handleReportProblem}>
             <Ionicons name="warning" size={24} color="#fff" />
-            <Text style={styles.reportButtonText}>Reportar Problema</Text>
+            <Text style={styles.reportButtonText}>Reportar</Text>
           </TouchableOpacity>
           
           <TouchableOpacity style={styles.emergencyButton} onPress={handleEmergencyCall}>
             <Ionicons name="call" size={24} color="#fff" />
-            <Text style={styles.emergencyButtonText}>Chamada de Emergência</Text>
+            <Text style={styles.emergencyButtonText}>Emergência</Text>
           </TouchableOpacity>
         </View>
 
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   mapContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: '#edf3ff',
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,

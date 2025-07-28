@@ -26,24 +26,24 @@ export default function LocationPickerScreen() {
   const popularLocations = [
     {
       id: '1',
-      name: 'Los Angeles',
-      address: 'California, United States',
+      name: 'São Paulo',
+      address: 'São Paulo, Brasil',
       distance: '3.21KM',
-      coordinates: { lat: 34.0522, lng: -118.2437 },
+      coordinates: { lat: -23.5505, lng: -46.6333 },
     },
     {
       id: '2',
-      name: 'San Francisco',
-      address: '2118 Thornridge Cir. Syracuse',
+      name: 'Rio de Janeiro',
+      address: 'Rio de Janeiro, RJ, Brasil',
       distance: '2.24KM',
-      coordinates: { lat: 37.7749, lng: -122.4194 },
+      coordinates: { lat: -22.9068, lng: -43.1729 },
     },
     {
       id: '3',
-      name: 'New York',
-      address: '2118 Thornridge Cir. Syracuse',
+      name: 'Belo Horizonte',
+      address: 'Belo Horizonte, MG, Brasil',
       distance: '2.84KM',
-      coordinates: { lat: 40.7128, lng: -74.0060 },
+      coordinates: { lat: -19.9167, lng: -43.9345 },
     },
   ];
 
@@ -70,10 +70,10 @@ export default function LocationPickerScreen() {
     console.log('Using current location');
     const currentLocation = {
       id: 'current',
-      name: 'Current Location',
-      address: 'Stieg Avi, New York',
+      name: 'Localização Atual',
+      address: 'São Paulo, SP, Brasil',
       distance: '0KM',
-      coordinates: { lat: 40.7128, lng: -74.0060 },
+      coordinates: { lat: -23.5505, lng: -46.6333 },
     };
     setSelectedLocation(currentLocation);
   };
@@ -84,7 +84,7 @@ export default function LocationPickerScreen() {
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color="#333" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Choose Location</Text>
+        <Text style={styles.headerTitle}>Escolher Localização</Text>
         <TouchableOpacity>
           <Ionicons name="ellipsis-vertical" size={24} color="#333" />
         </TouchableOpacity>
@@ -121,7 +121,7 @@ export default function LocationPickerScreen() {
           <Ionicons name="search" size={20} color="#666" />
           <TextInput
             style={styles.searchInput}
-            placeholder="Search..."
+            placeholder="Buscar..."
             value={searchQuery}
             onChangeText={setSearchQuery}
           />
@@ -133,7 +133,7 @@ export default function LocationPickerScreen() {
 
       {/* Popular Locations */}
       <View style={styles.contentContainer}>
-        <Text style={styles.sectionTitle}>Popular Location</Text>
+        <Text style={styles.sectionTitle}>Localizações Populares</Text>
         
         <ScrollView showsVerticalScrollIndicator={false}>
           {popularLocations.map((location) => (
@@ -170,7 +170,7 @@ export default function LocationPickerScreen() {
         {selectedLocation && (
           <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmLocation}>
             <Text style={styles.confirmButtonText}>
-              Continue with {selectedLocation.name}
+              Continuar com {selectedLocation.name}
             </Text>
           </TouchableOpacity>
         )}

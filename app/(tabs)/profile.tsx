@@ -2,13 +2,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React from 'react';
 import {
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Switch,
-    Text,
-    TouchableOpacity,
-    View,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function ProfileScreen() {
@@ -16,21 +16,21 @@ export default function ProfileScreen() {
   const [locationEnabled, setLocationEnabled] = React.useState(true);
 
   const profileStats = [
-    { label: 'Reports Submitted', value: '23' },
-    { label: 'Issues Resolved', value: '18' },
-    { label: 'Community Points', value: '456' },
-    { label: 'Volunteer Hours', value: '32' },
+    { label: 'Relatórios Enviados', value: '23' },
+    { label: 'Problemas Resolvidos', value: '18' },
+    { label: 'Pontos da Comunidade', value: '456' },
+    { label: 'Horas Voluntárias', value: '32' },
   ];
 
   const menuItems = [
-    { icon: 'person-outline', title: 'Edit Profile', action: () => {} },
-    { icon: 'document-text-outline', title: 'My Reports', action: () => {} },
-    { icon: 'heart-outline', title: 'Favorite Locations', action: () => {} },
-    { icon: 'shield-outline', title: 'Emergency Contacts', action: () => {} },
-    { icon: 'card-outline', title: 'Payment Methods', action: () => {} },
-    { icon: 'help-circle-outline', title: 'Help & Support', action: () => {} },
-    { icon: 'settings-outline', title: 'Settings', action: () => {} },
-    { icon: 'log-out-outline', title: 'Sign Out', action: () => router.replace('/auth/login' as any) },
+    { icon: 'person-outline', title: 'Editar Perfil', action: () => {} },
+    { icon: 'document-text-outline', title: 'Meus Relatórios', action: () => {} },
+    { icon: 'heart-outline', title: 'Locais Favoritos', action: () => {} },
+    { icon: 'shield-outline', title: 'Contatos de Emergência', action: () => {} },
+    { icon: 'card-outline', title: 'Métodos de Pagamento', action: () => {} },
+    { icon: 'help-circle-outline', title: 'Ajuda e Suporte', action: () => {} },
+    { icon: 'settings-outline', title: 'Configurações', action: () => {} },
+    { icon: 'log-out-outline', title: 'Sair', action: () => router.replace('/auth/login' as any) },
   ];
 
   return (
@@ -38,7 +38,7 @@ export default function ProfileScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>My Profile</Text>
+          <Text style={styles.headerTitle}>Meu Perfil</Text>
           <TouchableOpacity>
             <Ionicons name="settings-outline" size={24} color="#333" />
           </TouchableOpacity>
@@ -55,13 +55,13 @@ export default function ProfileScreen() {
             </TouchableOpacity>
           </View>
           
-          <Text style={styles.userName}>Bradley Wilkinson</Text>
-          <Text style={styles.userEmail}>bradley.wilkinson@email.com</Text>
-          <Text style={styles.userLocation}>📍 New York, NY</Text>
+          <Text style={styles.userName}>Breno Cota</Text>
+          <Text style={styles.userEmail}>breno.cota@gmail.com</Text>
+          <Text style={styles.userLocation}>📍 Araçuaí, MG</Text>
           
           <View style={styles.verificationBadge}>
             <Ionicons name="checkmark-circle" size={16} color="#4caf50" />
-            <Text style={styles.verificationText}>Verified Citizen</Text>
+            <Text style={styles.verificationText}>Cidadão Verificado</Text>
           </View>
         </View>
 
@@ -79,12 +79,12 @@ export default function ProfileScreen() {
 
         {/* Quick Settings */}
         <View style={styles.quickSettingsContainer}>
-          <Text style={styles.sectionTitle}>Quick Settings</Text>
+          <Text style={styles.sectionTitle}>Configurações Rápidas</Text>
           
           <View style={styles.settingItem}>
             <View style={styles.settingLeft}>
               <Ionicons name="notifications-outline" size={20} color="#333" />
-              <Text style={styles.settingText}>Push Notifications</Text>
+              <Text style={styles.settingText}>Notificações Push</Text>
             </View>
             <Switch
               value={notificationsEnabled}
@@ -97,7 +97,7 @@ export default function ProfileScreen() {
           <View style={styles.settingItem}>
             <View style={styles.settingLeft}>
               <Ionicons name="location-outline" size={20} color="#333" />
-              <Text style={styles.settingText}>Location Services</Text>
+              <Text style={styles.settingText}>Serviços de Localização</Text>
             </View>
             <Switch
               value={locationEnabled}
@@ -125,14 +125,14 @@ export default function ProfileScreen() {
         <View style={styles.emergencyContainer}>
           <TouchableOpacity style={styles.emergencyButton} onPress={() => router.push('/report/emergency' as any)}>
             <Ionicons name="warning" size={24} color="#fff" />
-            <Text style={styles.emergencyButtonText}>Emergency Report</Text>
+            <Text style={styles.emergencyButtonText}>Relatório de Emergência</Text>
           </TouchableOpacity>
         </View>
 
         {/* App Info */}
         <View style={styles.appInfoContainer}>
           <Text style={styles.appInfoText}>Iluminara v1.0.0</Text>
-          <Text style={styles.appInfoText}>© 2024 Community Infrastructure App</Text>
+          <Text style={styles.appInfoText}>© 2024 App de Infraestrutura Comunitária</Text>
         </View>
       </ScrollView>
     </SafeAreaView>

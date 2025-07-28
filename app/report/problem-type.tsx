@@ -2,12 +2,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 
 interface ProblemType {
@@ -25,44 +25,44 @@ export default function ProblemTypeScreen() {
     {
       id: 'electricity',
       icon: 'flash',
-      title: 'Electricity',
+      title: 'Eletricidade',
       color: '#ffeb3b',
-      description: 'Power outages, damaged wires, street lights',
+      description: 'Falta de energia, fios danificados, postes de luz',
     },
     {
       id: 'water',
       icon: 'water',
-      title: 'Water Issues',
+      title: 'Problemas de Água',
       color: '#2196f3',
-      description: 'Leaks, broken pipes, water quality',
+      description: 'Vazamentos, canos quebrados, qualidade da água',
     },
     {
       id: 'roads',
       icon: 'car',
-      title: 'Road Problems',
+      title: 'Problemas na Estrada',
       color: '#607d8b',
-      description: 'Potholes, damaged roads, traffic signs',
+      description: 'Buracos, estradas danificadas, placas de trânsito',
     },
     {
       id: 'waste',
       icon: 'trash',
-      title: 'Waste Management',
+      title: 'Gestão de Resíduos',
       color: '#4caf50',
-      description: 'Garbage collection, illegal dumping',
+      description: 'Coleta de lixo, descarte irregular',
     },
     {
       id: 'safety',
       icon: 'shield',
-      title: 'Public Safety',
+      title: 'Segurança Pública',
       color: '#f44336',
-      description: 'Dangerous areas, broken fences, hazards',
+      description: 'Áreas perigosas, cercas quebradas, riscos',
     },
     {
       id: 'parks',
       icon: 'leaf',
-      title: 'Parks & Recreation',
+      title: 'Parques e Recreação',
       color: '#8bc34a',
-      description: 'Damaged equipment, maintenance issues',
+      description: 'Equipamentos danificados, problemas de manutenção',
     },
   ];
 
@@ -70,19 +70,19 @@ export default function ProblemTypeScreen() {
     {
       id: 'ambulance',
       icon: 'medical',
-      title: 'Ambulance',
+      title: 'Ambulância',
       color: '#f44336',
     },
     {
       id: 'police',
       icon: 'shield-checkmark',
-      title: 'Police',
+      title: 'Polícia',
       color: '#2196f3',
     },
     {
       id: 'fire',
       icon: 'flame',
-      title: 'Fire Department',
+      title: 'Bombeiros',
       color: '#ff5722',
     },
     {
@@ -121,13 +121,13 @@ export default function ProblemTypeScreen() {
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#333" />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Report Problem</Text>
+          <Text style={styles.headerTitle}>Reportar Problema</Text>
           <View style={{ width: 24 }} />
         </View>
 
         {/* Problem Types */}
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>What type of problem are you reporting?</Text>
+          <Text style={styles.sectionTitle}>Que tipo de problema você está reportando?</Text>
           
           <View style={styles.problemGrid}>
             {problemTypes.map((problem) => (
@@ -161,10 +161,10 @@ export default function ProblemTypeScreen() {
             <View style={styles.emergencyIconContainer}>
               <Ionicons name="warning" size={24} color="#f44336" />
             </View>
-            <Text style={styles.emergencyTitle}>Find Various Emergency Calls</Text>
+            <Text style={styles.emergencyTitle}>Encontre Várias Chamadas de Emergência</Text>
           </View>
           
-          <Text style={styles.emergencySubtitle}>🏥🚨 Emergency Call</Text>
+          <Text style={styles.emergencySubtitle}>🏥🚨 Chamada de Emergência</Text>
           
           <View style={styles.emergencyGrid}>
             {emergencyTypes.map((emergency) => (
@@ -186,7 +186,7 @@ export default function ProblemTypeScreen() {
         {selectedProblem && (
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
-              <Text style={styles.continueButtonText}>Continue with Report</Text>
+              <Text style={styles.continueButtonText}>Continuar com o Relato</Text>
             </TouchableOpacity>
           </View>
         )}

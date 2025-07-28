@@ -2,17 +2,17 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Image,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function CommunityScreen() {
-  const [selectedFilter, setSelectedFilter] = useState('Post');
+  const [selectedFilter, setSelectedFilter] = useState('Publicação');
 
   const handleJoinVolunteer = (eventId: string) => {
     router.push(`/community/volunteer-form?eventId=${eventId}` as any);
@@ -21,36 +21,36 @@ export default function CommunityScreen() {
   const volunteerEvents = [
     {
       id: '1',
-      title: 'Providing flood disaster relief in Australia',
-      date: 'Dec 17',
-      type: 'Wednesday',
-      description: 'We are seeking a professional The Providing Flood Disaster Relief in Australia volunteer event is an initiative dedicated to supporting communities affected by recent floods. This programme is designed to provide immediate relief and long-term support...',
+      title: 'Fornecendo ajuda para desastre de enchente na Austrália',
+      date: '17 Dez',
+      type: 'Quarta-feira',
+      description: 'Estamos procurando um profissional. O evento voluntário de Fornecimento de Ajuda para Desastre de Enchente na Austrália é uma iniciativa dedicada a apoiar comunidades afetadas por enchentes recentes. Este programa é projetado para fornecer alívio imediato e apoio de longo prazo...',
       target: '3000',
       current: '390',
-      location: 'Australia',
-      image: 'https://via.placeholder.com/300x200/4CAF50/FFFFFF?text=Flood+Relief',
+      location: 'Austrália',
+      image: 'https://via.placeholder.com/300x200/4CAF50/FFFFFF?text=Ajuda+Enchente',
     },
     {
       id: '2',
-      title: 'Helping Hands Supporting Tsunami Survivors',
-      date: 'Dec 12-15',
-      type: 'Event',
-      description: 'Join our mission to help communities recover from the devastating tsunami...',
+      title: 'Mãos Solidárias Apoiando Sobreviventes do Tsunami',
+      date: '12-15 Dez',
+      type: 'Evento',
+      description: 'Junte-se à nossa missão para ajudar comunidades a se recuperarem do tsunami devastador...',
       target: '2000',
       current: '1240',
-      location: 'California, CA',
-      image: 'https://via.placeholder.com/300x200/2196F3/FFFFFF?text=Tsunami+Support',
+      location: 'Califórnia, CA',
+      image: 'https://via.placeholder.com/300x200/2196F3/FFFFFF?text=Apoio+Tsunami',
     },
     {
       id: '3',
-      title: 'Rapid Response Action for Tornado Victims',
-      date: 'Ongoing',
-      type: 'Continuous',
-      description: 'Emergency response team providing immediate aid to tornado-affected areas...',
+      title: 'Ação de Resposta Rápida para Vítimas de Tornado',
+      date: 'Em andamento',
+      type: 'Contínuo',
+      description: 'Equipe de resposta de emergência fornecendo ajuda imediata para áreas afetadas por tornado...',
       target: '1500',
       current: '890',
-      location: 'Oklahoma, US',
-      image: 'https://via.placeholder.com/300x200/FF5722/FFFFFF?text=Tornado+Aid',
+      location: 'Oklahoma, EUA',
+      image: 'https://via.placeholder.com/300x200/FF5722/FFFFFF?text=Ajuda+Tornado',
     },
   ];
 
@@ -62,7 +62,7 @@ export default function CommunityScreen() {
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#333" />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Community</Text>
+          <Text style={styles.headerTitle}>Comunidade</Text>
           <TouchableOpacity>
             <Ionicons name="ellipsis-vertical" size={24} color="#333" />
           </TouchableOpacity>
@@ -71,31 +71,31 @@ export default function CommunityScreen() {
         {/* Filter Tabs */}
         <View style={styles.filterContainer}>
           <TouchableOpacity
-            style={[styles.filterTab, selectedFilter === 'Post' && styles.activeFilterTab]}
-            onPress={() => setSelectedFilter('Post')}
+            style={[styles.filterTab, selectedFilter === 'Publicação' && styles.activeFilterTab]}
+            onPress={() => setSelectedFilter('Publicação')}
           >
-            <Text style={[styles.filterText, selectedFilter === 'Post' && styles.activeFilterText]}>
-              Post
+            <Text style={[styles.filterText, selectedFilter === 'Publicação' && styles.activeFilterText]}>
+              Publicação
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.filterTab, selectedFilter === 'Volunteer' && styles.activeFilterTab]}
-            onPress={() => setSelectedFilter('Volunteer')}
+            style={[styles.filterTab, selectedFilter === 'Voluntário' && styles.activeFilterTab]}
+            onPress={() => setSelectedFilter('Voluntário')}
           >
-            <Text style={[styles.filterText, selectedFilter === 'Volunteer' && styles.activeFilterText]}>
-              Volunteer
+            <Text style={[styles.filterText, selectedFilter === 'Voluntário' && styles.activeFilterText]}>
+              Voluntário
             </Text>
           </TouchableOpacity>
         </View>
 
         {/* Calendar Header */}
         <View style={styles.calendarContainer}>
-          <Text style={styles.monthYear}>December 2024 📅</Text>
+          <Text style={styles.monthYear}>Dezembro 2024 📅</Text>
           
           {/* Calendar Grid */}
           <View style={styles.calendarGrid}>
             <View style={styles.weekRow}>
-              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+              {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map((day) => (
                 <Text key={day} style={styles.dayHeader}>{day}</Text>
               ))}
             </View>
@@ -133,7 +133,7 @@ export default function CommunityScreen() {
 
         {/* Events List */}
         <View style={styles.eventsContainer}>
-          <Text style={styles.sectionTitle}>Other Volunteer</Text>
+          <Text style={styles.sectionTitle}>Notícias</Text>
           
           {volunteerEvents.map((event) => (
             <View key={event.id} style={styles.eventCard}>
@@ -145,7 +145,7 @@ export default function CommunityScreen() {
                     <Text style={styles.typeText}>{event.type}</Text>
                   </View>
                   <TouchableOpacity style={styles.volunteerButton} onPress={() => handleJoinVolunteer(event.id)}>
-                    <Text style={styles.volunteerButtonText}>Volunteer</Text>
+                    <Text style={styles.volunteerButtonText}>Voluntário</Text>
                   </TouchableOpacity>
                 </View>
                 
@@ -157,7 +157,7 @@ export default function CommunityScreen() {
                 <View style={styles.eventFooter}>
                   <Text style={styles.locationText}>📍 {event.location}</Text>
                   <Text style={styles.targetText}>
-                    Target: {event.target} | Current: {event.current}
+                    Meta: {event.target} | Atual: {event.current}
                   </Text>
                 </View>
               </View>

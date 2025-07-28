@@ -1,58 +1,58 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import {
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function FundsScreen() {
   const donationCampaigns = [
     {
       id: '1',
-      title: 'Australia Flood Relief',
-      description: 'Supporting communities affected by recent floods',
+      title: 'Ajuda para Enchente na Austrália',
+      description: 'Apoiando comunidades afetadas pelas enchentes recentes',
       raised: 45000,
       target: 100000,
       donors: 1234,
-      urgency: 'High',
+      urgency: 'Alta',
     },
     {
       id: '2',
-      title: 'Earthquake Recovery Fund',
-      description: 'Emergency aid for earthquake victims',
+      title: 'Fundo de Recuperação de Terremoto',
+      description: 'Ajuda emergencial para vítimas de terremoto',
       raised: 78000,
       target: 150000,
       donors: 2156,
-      urgency: 'Critical',
+      urgency: 'Crítica',
     },
     {
       id: '3',
-      title: 'Infrastructure Repair',
-      description: 'Fixing damaged roads and bridges',
+      title: 'Reparo de Infraestrutura',
+      description: 'Consertando estradas e pontes danificadas',
       raised: 32000,
       target: 80000,
       donors: 567,
-      urgency: 'Medium',
+      urgency: 'Média',
     },
   ];
 
   const getUrgencyColor = (urgency: string) => {
     switch (urgency) {
-      case 'Critical': return '#ff1744';
-      case 'High': return '#ff9800';
-      case 'Medium': return '#2196f3';
+      case 'Crítica': return '#ff1744';
+      case 'Alta': return '#ff9800';
+      case 'Média': return '#2196f3';
       default: return '#4caf50';
     }
   };
 
   const formatAmount = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'BRL',
       minimumFractionDigits: 0,
     }).format(amount);
   };
@@ -62,7 +62,7 @@ export default function FundsScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>Funds</Text>
+          <Text style={styles.headerTitle}>Solicitações</Text>
           <TouchableOpacity>
             <Ionicons name="notifications" size={24} color="#333" />
           </TouchableOpacity>
@@ -70,44 +70,44 @@ export default function FundsScreen() {
 
         {/* Summary Card */}
         <View style={styles.summaryCard}>
-          <Text style={styles.summaryTitle}>Your Impact</Text>
+          <Text style={styles.summaryTitle}>Insights</Text>
           <View style={styles.summaryStats}>
             <View style={styles.statItem}>
-              <Text style={styles.statValue}>$2,450</Text>
-              <Text style={styles.statLabel}>Total Donated</Text>
+              <Text style={styles.statValue}>R$ 2.450</Text>
+              <Text style={styles.statLabel}>Em obras realizadas</Text>
             </View>
             <View style={styles.statItem}>
               <Text style={styles.statValue}>12</Text>
-              <Text style={styles.statLabel}>Campaigns</Text>
+              <Text style={styles.statLabel}>Reportados</Text>
             </View>
             <View style={styles.statItem}>
               <Text style={styles.statValue}>856</Text>
-              <Text style={styles.statLabel}>People Helped</Text>
+              <Text style={styles.statLabel}>Pessoas Ajudadas</Text>
             </View>
           </View>
         </View>
 
         {/* Quick Donate */}
-        <View style={styles.quickDonateContainer}>
-          <Text style={styles.sectionTitle}>Quick Donate</Text>
+        {/* <View style={styles.quickDonateContainer}>
+          <Text style={styles.sectionTitle}>Doação Rápida</Text>
           <View style={styles.quickAmounts}>
-            {['$10', '$25', '$50', '$100'].map((amount) => (
+            {['R$ 25', 'R$ 50', 'R$ 100', 'R$ 200'].map((amount) => (
               <TouchableOpacity key={amount} style={styles.quickAmountButton}>
                 <Text style={styles.quickAmountText}>{amount}</Text>
               </TouchableOpacity>
             ))}
           </View>
           <TouchableOpacity style={styles.customAmountButton}>
-            <Text style={styles.customAmountText}>Custom Amount</Text>
+            <Text style={styles.customAmountText}>Valor Personalizado</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* Active Campaigns */}
         <View style={styles.campaignsContainer}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Active Campaigns</Text>
+            <Text style={styles.sectionTitle}>Minhas solicitações</Text>
             <TouchableOpacity>
-              <Text style={styles.viewAllText}>View All</Text>
+              <Text style={styles.viewAllText}>Ver Todas</Text>
             </TouchableOpacity>
           </View>
 
@@ -132,14 +132,14 @@ export default function FundsScreen() {
                   />
                 </View>
                 <Text style={styles.progressText}>
-                  {formatAmount(campaign.raised)} raised of {formatAmount(campaign.target)}
+                  {formatAmount(campaign.raised)} arrecadados de {formatAmount(campaign.target)}
                 </Text>
               </View>
               
               <View style={styles.campaignFooter}>
-                <Text style={styles.donorsText}>{campaign.donors} donors</Text>
+                <Text style={styles.donorsText}>{campaign.donors} votos</Text>
                 <TouchableOpacity style={styles.donateButton}>
-                  <Text style={styles.donateButtonText}>Donate Now</Text>
+                  <Text style={styles.donateButtonText}>Aprovado</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -148,16 +148,16 @@ export default function FundsScreen() {
 
         {/* Recent Donations */}
         <View style={styles.recentContainer}>
-          <Text style={styles.sectionTitle}>Recent Donations</Text>
+          <Text style={styles.sectionTitle}>Mais reportados</Text>
           <View style={styles.recentItem}>
             <View style={styles.recentIcon}>
               <Ionicons name="water" size={20} color="#2196f3" />
             </View>
             <View style={styles.recentInfo}>
-              <Text style={styles.recentTitle}>Australia Flood Relief</Text>
-              <Text style={styles.recentDate}>2 days ago</Text>
+              <Text style={styles.recentTitle}>Vazamento de água</Text>
+              <Text style={styles.recentDate}>2 dias atrás</Text>
             </View>
-            <Text style={styles.recentAmount}>$50</Text>
+            <Text style={styles.recentAmount}>pendente</Text>
           </View>
           
           <View style={styles.recentItem}>
@@ -165,10 +165,10 @@ export default function FundsScreen() {
               <Ionicons name="home" size={20} color="#ff9800" />
             </View>
             <View style={styles.recentInfo}>
-              <Text style={styles.recentTitle}>Infrastructure Repair</Text>
-              <Text style={styles.recentDate}>1 week ago</Text>
+              <Text style={styles.recentTitle}>Falta de energia residencial</Text>
+              <Text style={styles.recentDate}>1 semana</Text>
             </View>
-            <Text style={styles.recentAmount}>$100</Text>
+            <Text style={styles.recentAmount}>pendente</Text>
           </View>
         </View>
       </ScrollView>

@@ -2,13 +2,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React from 'react';
 import {
-    ImageBackground,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ImageBackground,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function HomeScreen() {
@@ -34,8 +34,8 @@ export default function HomeScreen() {
               <Ionicons name="person" size={24} color="#666" />
             </View>
             <View>
-              <Text style={styles.greeting}>Hi Welcome 👋</Text>
-              <Text style={styles.username}>Bradley Wilkinson</Text>
+              <Text style={styles.greeting}>Olá, Bem-vindo 👋</Text>
+              <Text style={styles.username}>Breno Cota</Text>
             </View>
           </View>
           <View style={styles.headerIcons}>
@@ -51,38 +51,38 @@ export default function HomeScreen() {
 
         {/* Hero Banner */}
         <View style={styles.heroContainer}>
-          <ImageBackground
-            source={{ uri: 'https://via.placeholder.com/350x150/4CAF50/FFFFFF?text=Community+Support' }}
+            <ImageBackground
+            source={{ uri: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=350&h=150&fit=crop' }}
             style={styles.heroBanner}
             imageStyle={styles.heroImage}
-          >
+            >
             <View style={styles.heroContent}>
-              <Text style={styles.heroTitle}>Together for{'\n'}Relief, Stronger{'\n'}in Recovery</Text>
+              <Text style={styles.heroTitle}>Juntos construímos{'\n'}uma cidade melhor{'\n'}para todos</Text>
               <TouchableOpacity style={styles.donationButton}>
-                <Text style={styles.donationButtonText}>See Donation</Text>
+              <Text style={styles.donationButtonText}>Ver Registros</Text>
               </TouchableOpacity>
             </View>
-          </ImageBackground>
+            </ImageBackground>
         </View>
 
         {/* Disaster Information */}
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Disaster Information 🔥</Text>
+            <Text style={styles.sectionTitle}>Informações de Incidentes 🔥</Text>
             <TouchableOpacity>
-              <Text style={styles.seeAllText}>See All</Text>
+              <Text style={styles.seeAllText}>Ver Todos</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.filterContainer}>
             <TouchableOpacity style={[styles.filterChip, styles.activeFilter]}>
-              <Text style={styles.activeFilterText}>🕒 Now</Text>
+              <Text style={styles.activeFilterText}>🕒 Agora</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.filterChip}>
-              <Text style={styles.filterText}>🕐 Last week</Text>
+              <Text style={styles.filterText}>🕐 Semana passada</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.filterChip}>
-              <Text style={styles.filterText}>📅 Last month</Text>
+              <Text style={styles.filterText}>📅 Mês passado</Text>
             </TouchableOpacity>
           </View>
 
@@ -90,18 +90,31 @@ export default function HomeScreen() {
           <TouchableOpacity style={styles.mapContainer} onPress={handleLocationPicker}>
             <View style={styles.mapPlaceholder}>
               <Ionicons name="location" size={40} color="#ff4444" />
-              <Text style={styles.mapTitle}>Earthquake in New York</Text>
-              <Text style={styles.mapDate}>📅 Sun, 11 June 2024  🕒 3 min ago</Text>
+              <Text style={styles.mapTitle}>Falta de energia Bairro São Francisco</Text>
+              <Text style={styles.mapDate}>📅 Dom, 11 Junho 2024  🕒 3 min atrás</Text>
             </View>
+          </TouchableOpacity>
+        </View>
+
+        {/* Quick Actions */}
+        <View style={styles.quickActionsContainer}>
+          <TouchableOpacity style={styles.reportButton} onPress={handleReportProblem}>
+            <Ionicons name="warning" size={24} color="#fff" />
+            <Text style={styles.reportButtonText}>Reportar Problema</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.emergencyButton} onPress={handleEmergencyCall}>
+            <Ionicons name="call" size={24} color="#fff" />
+            <Text style={styles.emergencyButtonText}>Chamada de Emergência</Text>
           </TouchableOpacity>
         </View>
 
         {/* Live News */}
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Live News</Text>
+            <Text style={styles.sectionTitle}>Notícias ao Vivo</Text>
             <TouchableOpacity>
-              <Text style={styles.seeAllText}>See All</Text>
+              <Text style={styles.seeAllText}>Ver Todos</Text>
             </TouchableOpacity>
           </View>
 
@@ -124,19 +137,6 @@ export default function HomeScreen() {
               </TouchableOpacity>
             </View>
           </ScrollView>
-        </View>
-
-        {/* Quick Actions */}
-        <View style={styles.quickActionsContainer}>
-          <TouchableOpacity style={styles.reportButton} onPress={handleReportProblem}>
-            <Ionicons name="warning" size={24} color="#fff" />
-            <Text style={styles.reportButtonText}>Report Problem</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.emergencyButton} onPress={handleEmergencyCall}>
-            <Ionicons name="call" size={24} color="#fff" />
-            <Text style={styles.emergencyButtonText}>Emergency Call</Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
   },
   heroImage: {
     borderRadius: 12,
+    backgroundColor: '#b0ec70', 
   },
   heroContent: {
     flex: 1,

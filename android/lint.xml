@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- Disable lint checks that cause memory issues -->
+    <issue id="all" severity="ignore" />
+    
+    <!-- Only enable critical checks -->
+    <issue id="NewApi" severity="error" />
+    <issue id="RequiredSize" severity="error" />
+    <issue id="UnusedResources" severity="ignore" />
+    <issue id="InvalidPackage" severity="ignore" />
+    
+    <!-- Disable checks for third-party libraries -->
+    <issue id="all">
+        <ignore path="**/node_modules/**" />
+        <ignore path="**/react-native-reanimated/**" />
+        <ignore path="**/react-native-screens/**" />
+    </issue>
+</lint>

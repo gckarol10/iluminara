@@ -19,4 +19,10 @@
 -dontwarn androidx.**
 -dontwarn com.facebook.react.**
 
+# Suppress warnings for async-storage and webview
+-dontwarn com.reactnativecommunity.asyncstorage.**
+-dontwarn com.reactnativecommunity.webview.**
+-keep class com.reactnativecommunity.asyncstorage.** { *; }
+-keep class com.reactnativecommunity.webview.** { *; }
+
 # Add any project specific keep options here:

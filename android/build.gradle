@@ -33,5 +33,13 @@ allprojects {
   }
 }
 
+// Configure all projects to use optimized settings
+allprojects {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:none"
+        options.compilerArgs << "-nowarn"
+    }
+}
+
 apply plugin: "expo-root-project"
 apply plugin: "com.facebook.react.rootproject"

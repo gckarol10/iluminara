@@ -7,12 +7,14 @@
     "icon": "./assets/images/icon.png",
     "scheme": "iluminara",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
       "supportsTablet": true,
+      "statusBarStyle": "auto",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Este app precisa acessar sua localização para reportar problemas da cidade.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Este app precisa acessar sua localização para reportar problemas da cidade."
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Este app precisa acessar sua localização para reportar problemas da cidade.",
+        "UIViewControllerBasedStatusBarAppearance": false
       },
       "bundleIdentifier": "com.iluminara.app"
     },
@@ -21,7 +23,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
+      "statusBarStyle": "auto",
+      "statusBarBackgroundColor": "#ffffff",
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",

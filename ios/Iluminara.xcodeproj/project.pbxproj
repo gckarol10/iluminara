@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B489EE0A7692FC219A71D00 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA6A1FCEACB0BB9DC7DFC24 /* ExpoModulesProvider.swift */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		222192D52D2B735796ACA7BD /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = EBF1AB31943A560EDB5D0582 /* PrivacyInfo.xcprivacy */; };
+		14CDD46F8862DC7007E0037F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 1E5C4332E17829A83362C263 /* PrivacyInfo.xcprivacy */; };
+		18364BA7E2E265BBEF39B870 /* libPods-Iluminara.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7949E9100BAED529700BE562 /* libPods-Iluminara.a */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		865E043341FEA4CB5EEF344D /* libPods-Iluminara.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83136A4680BABC69058104B7 /* libPods-Iluminara.a */; };
+		58855693BE63D15DE9EA1212 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492F94F1B29B3D4CBAA54663 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -20,13 +20,13 @@
 		13B07F961A680F5B00A75B9A /* Iluminara.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Iluminara.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Iluminara/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Iluminara/Info.plist; sourceTree = "<group>"; };
-		5BA98F1873C6217A9A034BA8 /* Pods-Iluminara.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iluminara.release.xcconfig"; path = "Target Support Files/Pods-Iluminara/Pods-Iluminara.release.xcconfig"; sourceTree = "<group>"; };
-		73ED148D07A8B49CD6D2FD23 /* Pods-Iluminara.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iluminara.debug.xcconfig"; path = "Target Support Files/Pods-Iluminara/Pods-Iluminara.debug.xcconfig"; sourceTree = "<group>"; };
-		83136A4680BABC69058104B7 /* libPods-Iluminara.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iluminara.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E5C4332E17829A83362C263 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = Iluminara/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		492F94F1B29B3D4CBAA54663 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Iluminara/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		49EDBD6E87CE43E089BD1CEF /* Pods-Iluminara.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iluminara.debug.xcconfig"; path = "Target Support Files/Pods-Iluminara/Pods-Iluminara.debug.xcconfig"; sourceTree = "<group>"; };
+		58CC0E8E6754E2B43CD8C5C1 /* Pods-Iluminara.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iluminara.release.xcconfig"; path = "Target Support Files/Pods-Iluminara/Pods-Iluminara.release.xcconfig"; sourceTree = "<group>"; };
+		7949E9100BAED529700BE562 /* libPods-Iluminara.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iluminara.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = Iluminara/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		CCA6A1FCEACB0BB9DC7DFC24 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Iluminara/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		EBF1AB31943A560EDB5D0582 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = Iluminara/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Iluminara/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* Iluminara-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Iluminara-Bridging-Header.h"; path = "Iluminara/Iluminara-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -37,13 +37,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				865E043341FEA4CB5EEF344D /* libPods-Iluminara.a in Frameworks */,
+				18364BA7E2E265BBEF39B870 /* libPods-Iluminara.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D04ECD8B7972F9EE1558789 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				BCFF0ED57F562D06B4B277E2 /* Iluminara */,
+			);
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* Iluminara */ = {
 			isa = PBXGroup;
 			children = (
@@ -53,7 +61,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				EBF1AB31943A560EDB5D0582 /* PrivacyInfo.xcprivacy */,
+				1E5C4332E17829A83362C263 /* PrivacyInfo.xcprivacy */,
 			);
 			name = Iluminara;
 			sourceTree = "<group>";
@@ -62,7 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				83136A4680BABC69058104B7 /* libPods-Iluminara.a */,
+				7949E9100BAED529700BE562 /* libPods-Iluminara.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -81,8 +89,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				B2A96B239D1EF8D165660131 /* Pods */,
-				ACB49B8A1364DCA981DA51E5 /* ExpoModulesProviders */,
+				C33408781DB075DB9FC2BE73 /* Pods */,
+				0D04ECD8B7972F9EE1558789 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -97,24 +105,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		ACB49B8A1364DCA981DA51E5 /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				E93F21B50C9DBBEFB0FACC54 /* Iluminara */,
-			);
-			name = ExpoModulesProviders;
-			sourceTree = "<group>";
-		};
-		B2A96B239D1EF8D165660131 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				73ED148D07A8B49CD6D2FD23 /* Pods-Iluminara.debug.xcconfig */,
-				5BA98F1873C6217A9A034BA8 /* Pods-Iluminara.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -124,12 +114,22 @@
 			path = Iluminara/Supporting;
 			sourceTree = "<group>";
 		};
-		E93F21B50C9DBBEFB0FACC54 /* Iluminara */ = {
+		BCFF0ED57F562D06B4B277E2 /* Iluminara */ = {
 			isa = PBXGroup;
 			children = (
-				CCA6A1FCEACB0BB9DC7DFC24 /* ExpoModulesProvider.swift */,
+				492F94F1B29B3D4CBAA54663 /* ExpoModulesProvider.swift */,
 			);
 			name = Iluminara;
+			sourceTree = "<group>";
+		};
+		C33408781DB075DB9FC2BE73 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				49EDBD6E87CE43E089BD1CEF /* Pods-Iluminara.debug.xcconfig */,
+				58CC0E8E6754E2B43CD8C5C1 /* Pods-Iluminara.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,13 +140,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Iluminara" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				0B4938AC8FD7354C8C6F4398 /* [Expo] Configure project */,
+				1322B5FF1416DD12F71AF065 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				946C7C5FEBEE0D82FE43F69E /* [CP] Embed Pods Frameworks */,
+				58895DF211ED3FFFF02A0A66 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -196,7 +196,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				222192D52D2B735796ACA7BD /* PrivacyInfo.xcprivacy in Resources */,
+				14CDD46F8862DC7007E0037F /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,7 +240,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		0B4938AC8FD7354C8C6F4398 /* [Expo] Configure project */ = {
+		1322B5FF1416DD12F71AF065 /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -258,6 +258,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-Iluminara/expo-configure-project.sh\"\n";
+		};
+		58895DF211ED3FFFF02A0A66 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Iluminara/Pods-Iluminara-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Iluminara/Pods-Iluminara-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -299,24 +317,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Iluminara/Pods-Iluminara-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		946C7C5FEBEE0D82FE43F69E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Iluminara/Pods-Iluminara-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Iluminara/Pods-Iluminara-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -325,7 +325,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				0B489EE0A7692FC219A71D00 /* ExpoModulesProvider.swift in Sources */,
+				58855693BE63D15DE9EA1212 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,10 +334,11 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 73ED148D07A8B49CD6D2FD23 /* Pods-Iluminara.debug.xcconfig */;
+			baseConfigurationReference = 49EDBD6E87CE43E089BD1CEF /* Pods-Iluminara.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Iluminara/Iluminara.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -357,21 +358,23 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.Iluminara;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iluminara.app;
 				PRODUCT_NAME = Iluminara;
 				SWIFT_OBJC_BRIDGING_HEADER = "Iluminara/Iluminara-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5BA98F1873C6217A9A034BA8 /* Pods-Iluminara.release.xcconfig */;
+			baseConfigurationReference = 58CC0E8E6754E2B43CD8C5C1 /* Pods-Iluminara.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Iluminara/Iluminara.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = Iluminara/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -386,10 +389,11 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.Iluminara;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iluminara.app;
 				PRODUCT_NAME = Iluminara;
 				SWIFT_OBJC_BRIDGING_HEADER = "Iluminara/Iluminara-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

@@ -2,13 +2,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React from 'react';
 import {
-    ImageBackground,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ImageBackground,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function HomeScreen() {
@@ -39,9 +39,9 @@ export default function HomeScreen() {
             </View>
           </View>
           <View style={styles.headerIcons}>
-            <TouchableOpacity style={styles.iconButton}>
+            {/* <TouchableOpacity style={styles.iconButton}>
               <Ionicons name="search" size={24} color="#333" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity style={styles.iconButton}>
               <Ionicons name="notifications" size={24} color="#333" />
               <View style={styles.notificationBadge} />
@@ -109,7 +109,7 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Live News */}
+        {/* Live News
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Notícias ao Vivo</Text>
@@ -137,7 +137,7 @@ export default function HomeScreen() {
               </TouchableOpacity>
             </View>
           </ScrollView>
-        </View>
+        </View> */}
       </ScrollView>
     </SafeAreaView>
   );

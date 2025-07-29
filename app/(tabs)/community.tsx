@@ -2,17 +2,17 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Image,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function CommunityScreen() {
-  const [selectedFilter, setSelectedFilter] = useState('Publicação');
+  const [selectedFilter, setSelectedFilter] = useState('Recentes');
 
   const handleJoinVolunteer = (eventId: string) => {
     router.push(`/community/volunteer-form?eventId=${eventId}` as any);
@@ -24,7 +24,7 @@ export default function CommunityScreen() {
       title: 'Fornecendo ajuda para desastre de enchente na Austrália',
       date: '17 Dez',
       type: 'Quarta-feira',
-      description: 'Estamos procurando um profissional. O evento voluntário de Fornecimento de Ajuda para Desastre de Enchente na Austrália é uma iniciativa dedicada a apoiar comunidades afetadas por enchentes recentes. Este programa é projetado para fornecer alívio imediato e apoio de longo prazo...',
+      description: 'Estamos procurando um profissional. O evento Minhas solicitações de Fornecimento de Ajuda para Desastre de Enchente na Austrália é uma iniciativa dedicada a apoiar comunidades afetadas por enchentes recentes. Este programa é projetado para fornecer alívio imediato e apoio de longo prazo...',
       target: '3000',
       current: '390',
       location: 'Austrália',
@@ -71,19 +71,19 @@ export default function CommunityScreen() {
         {/* Filter Tabs */}
         <View style={styles.filterContainer}>
           <TouchableOpacity
-            style={[styles.filterTab, selectedFilter === 'Publicação' && styles.activeFilterTab]}
-            onPress={() => setSelectedFilter('Publicação')}
+            style={[styles.filterTab, selectedFilter === 'Recentes' && styles.activeFilterTab]}
+            onPress={() => setSelectedFilter('Recentes')}
           >
-            <Text style={[styles.filterText, selectedFilter === 'Publicação' && styles.activeFilterText]}>
-              Publicação
+            <Text style={[styles.filterText, selectedFilter === 'Recentes' && styles.activeFilterText]}>
+              Recentes
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.filterTab, selectedFilter === 'Voluntário' && styles.activeFilterTab]}
-            onPress={() => setSelectedFilter('Voluntário')}
+            style={[styles.filterTab, selectedFilter === 'Minhas solicitações' && styles.activeFilterTab]}
+            onPress={() => setSelectedFilter('Minhas solicitações')}
           >
-            <Text style={[styles.filterText, selectedFilter === 'Voluntário' && styles.activeFilterText]}>
-              Voluntário
+            <Text style={[styles.filterText, selectedFilter === 'Minhas solicitações' && styles.activeFilterText]}>
+              Minhas solicitações
             </Text>
           </TouchableOpacity>
         </View>
@@ -133,7 +133,7 @@ export default function CommunityScreen() {
 
         {/* Events List */}
         <View style={styles.eventsContainer}>
-          <Text style={styles.sectionTitle}>Notícias</Text>
+          <Text style={styles.sectionTitle}>Solicitações</Text>
           
           {volunteerEvents.map((event) => (
             <View key={event.id} style={styles.eventCard}>
@@ -145,7 +145,7 @@ export default function CommunityScreen() {
                     <Text style={styles.typeText}>{event.type}</Text>
                   </View>
                   <TouchableOpacity style={styles.volunteerButton} onPress={() => handleJoinVolunteer(event.id)}>
-                    <Text style={styles.volunteerButtonText}>Voluntário</Text>
+                    <Text style={styles.volunteerButtonText}>Minhas solicitações</Text>
                   </TouchableOpacity>
                 </View>
                 

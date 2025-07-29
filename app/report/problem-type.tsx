@@ -181,16 +181,15 @@ export default function ProblemTypeScreen() {
             ))}
           </View>
         </View>
-
-        {/* Continue Button */}
-        {selectedProblem && (
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
-              <Text style={styles.continueButtonText}>Continuar com o Relato</Text>
-            </TouchableOpacity>
-          </View>
-        )}
       </ScrollView>
+      {/* Continue Button */}
+      {selectedProblem && (
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
+            <Text style={styles.continueButtonText}>Continuar com o Relato</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -339,6 +338,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     paddingHorizontal: 16,
     paddingBottom: 32,
+    paddingTop: 8,
   },
   continueButton: {
     backgroundColor: '#2d5016',

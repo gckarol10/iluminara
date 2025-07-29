@@ -9,11 +9,11 @@ export default function RootLayout() {
         backgroundColor="#ffffff"
         translucent={false}
       />
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="auth" options={{ headerShown: false }} />
-        <Stack.Screen name="map" options={{ headerShown: false }} />
-        <Stack.Screen name="Reportar" options={{ headerShown: false }} />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="auth" />
+        <Stack.Screen name="map" />
+        <Stack.Screen name="report" />
         <Stack.Screen name="+not-found" />
       </Stack>
     </>

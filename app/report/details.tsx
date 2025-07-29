@@ -10,11 +10,11 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    TextInput,
     TouchableOpacity,
     View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ThemedTextInput } from '../../components/ThemedTextInput';
 import { ISSUE_TYPES, ISSUE_TYPE_LABELS, IssueType } from '../../constants/Api';
 import { useReports } from '../../hooks/useReports';
 
@@ -267,7 +267,7 @@ export default function ReportDetailsScreen() {
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Descrição do Problema *</Text>
-          <TextInput
+          <ThemedTextInput
             style={styles.descriptionInput}
             placeholder="Descreva detalhadamente o problema que você encontrou..."
             value={description}
@@ -298,7 +298,7 @@ export default function ReportDetailsScreen() {
 
           <Text style={styles.orText}>ou informe manualmente:</Text>
 
-          <TextInput
+          <ThemedTextInput
             style={styles.input}
             placeholder="Endereço completo"
             value={address}
@@ -306,13 +306,13 @@ export default function ReportDetailsScreen() {
           />
 
           <View style={styles.locationRow}>
-            <TextInput
+            <ThemedTextInput
               style={[styles.input, styles.cityInput]}
               placeholder="Cidade"
               value={city}
               onChangeText={setCity}
             />
-            <TextInput
+            <ThemedTextInput
               style={[styles.input, styles.stateInput]}
               placeholder="UF"
               value={state}

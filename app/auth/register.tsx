@@ -8,11 +8,11 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ThemedTextInput } from '../../components/ThemedTextInput';
 import { useAuth } from '../../hooks/useAuth';
 
 export default function RegisterScreen() {
@@ -87,7 +87,7 @@ export default function RegisterScreen() {
 
             <View style={styles.form}>
               <View style={styles.inputContainer}>
-                <TextInput
+                <ThemedTextInput
                   style={styles.input}
                   placeholder="Digite seu nome completo"
                   value={fullName}
@@ -99,7 +99,7 @@ export default function RegisterScreen() {
 
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Email</Text>
-                <TextInput
+                <ThemedTextInput
                   style={styles.input}
                   placeholder="Digite seu endereço de email"
                   value={email}
@@ -113,8 +113,9 @@ export default function RegisterScreen() {
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Senha</Text>
                 <View style={styles.passwordContainer}>
-                  <TextInput
+                  <ThemedTextInput
                     style={styles.passwordInput}
+                    variant="password"
                     placeholder="Digite sua senha"
                     value={password}
                     onChangeText={setPassword}
@@ -136,7 +137,7 @@ export default function RegisterScreen() {
 
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Endereço</Text>
-                <TextInput
+                <ThemedTextInput
                   style={styles.input}
                   placeholder="Digite seu endereço completo"
                   value={address}
@@ -147,7 +148,7 @@ export default function RegisterScreen() {
 
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Cidade</Text>
-                <TextInput
+                <ThemedTextInput
                   style={styles.input}
                   placeholder="Digite sua cidade"
                   value={city}
@@ -157,7 +158,7 @@ export default function RegisterScreen() {
 
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Estado (UF)</Text>
-                <TextInput
+                <ThemedTextInput
                   style={styles.input}
                   placeholder="Ex: MG"
                   value={state}
@@ -266,13 +267,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    backgroundColor: '#fff',
+    // Styles específicos que sobrescrevem o ThemedTextInput
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -287,6 +282,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
+    color: '#1a1a1a',
   },
   eyeIcon: {
     paddingHorizontal: 16,

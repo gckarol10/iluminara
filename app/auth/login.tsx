@@ -2,16 +2,16 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Alert,
+    KeyboardAvoidingView,
+    Platform,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ThemedTextInput } from '../../components/ThemedTextInput';
 import { useAuth } from '../../hooks/useAuth';
 
 export default function LoginScreen() {
@@ -63,7 +63,7 @@ export default function LoginScreen() {
           <View style={styles.form}>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Email</Text>
-              <TextInput
+              <ThemedTextInput
                 style={styles.input}
                 placeholder="Digite seu endereço de email"
                 value={email}
@@ -77,8 +77,9 @@ export default function LoginScreen() {
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Senha</Text>
               <View style={styles.passwordContainer}>
-                <TextInput
+                <ThemedTextInput
                   style={styles.passwordInput}
+                  variant="password"
                   placeholder="Digite sua senha"
                   value={password}
                   onChangeText={setPassword}
@@ -192,13 +193,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    backgroundColor: '#fff',
+    // Styles específicos que sobrescrevem o ThemedTextInput
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -213,6 +208,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
+    color: '#1a1a1a',
   },
   eyeIcon: {
     paddingHorizontal: 16,

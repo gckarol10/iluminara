@@ -2,14 +2,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ThemedTextInput } from '../../components/ThemedTextInput';
 
 interface Location {
   id: string;
@@ -119,8 +119,9 @@ export default function LocationPickerScreen() {
       <View style={styles.searchContainer}>
         <View style={styles.searchBar}>
           <Ionicons name="search" size={20} color="#666" />
-          <TextInput
+          <ThemedTextInput
             style={styles.searchInput}
+            variant="search"
             placeholder="Buscar..."
             value={searchQuery}
             onChangeText={setSearchQuery}

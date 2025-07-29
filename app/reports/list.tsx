@@ -2,25 +2,25 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-    ActivityIndicator,
-    FlatList,
-    RefreshControl,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ThemedTextInput } from '../../components/ThemedTextInput';
 import {
-    ISSUE_TYPE_LABELS,
-    ISSUE_TYPES,
-    IssueType,
-    Report,
-    REPORT_STATUS,
-    ReportStatus,
-    STATUS_COLORS,
-    STATUS_LABELS
+  ISSUE_TYPE_LABELS,
+  ISSUE_TYPES,
+  IssueType,
+  Report,
+  REPORT_STATUS,
+  ReportStatus,
+  STATUS_COLORS,
+  STATUS_LABELS
 } from '../../constants/Api';
 import { useReports } from '../../hooks/useReports';
 
@@ -181,11 +181,12 @@ export default function ReportsListScreen() {
       {/* Search */}
       <View style={styles.searchContainer}>
         <Ionicons name="search" size={20} color="#666" />
-        <TextInput
+        <ThemedTextInput
           style={styles.searchInput}
+          variant="search"
           placeholder="Buscar por descrição..."
           value={filters.search}
-          onChangeText={(text) => setFilters(prev => ({ ...prev, search: text }))}
+          onChangeText={(text: string) => setFilters(prev => ({ ...prev, search: text }))}
         />
       </View>
 
@@ -229,17 +230,17 @@ export default function ReportsListScreen() {
       <View style={styles.filterGroup}>
         <Text style={styles.filterLabel}>Localização</Text>
         <View style={styles.locationInputsContainer}>
-          <TextInput
+          <ThemedTextInput
             style={[styles.locationInput, { flex: 2 }]}
             placeholder="Cidade"
             value={filters.city}
-            onChangeText={(text) => setFilters(prev => ({ ...prev, city: text }))}
+            onChangeText={(text: string) => setFilters(prev => ({ ...prev, city: text }))}
           />
-          <TextInput
+          <ThemedTextInput
             style={[styles.locationInput, { flex: 1 }]}
             placeholder="UF"
             value={filters.state}
-            onChangeText={(text) => setFilters(prev => ({ ...prev, state: text.toUpperCase() }))}
+            onChangeText={(text: string) => setFilters(prev => ({ ...prev, state: text.toUpperCase() }))}
             maxLength={2}
             autoCapitalize="characters"
           />
@@ -392,12 +393,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     marginBottom: 16,
   },
-  searchInput: {
-    flex: 1,
-    marginLeft: 8,
-    fontSize: 16,
-    color: '#1a1a1a',
-  },
+  searchInput: {},
   filterGroup: {
     marginBottom: 16,
   },
@@ -433,15 +429,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
   },
-  locationInput: {
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    fontSize: 14,
-    backgroundColor: '#fff',
-  },
+  locationInput: {},
   filterActionsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -2,13 +2,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Alert,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedTextInput } from '../../components/ThemedTextInput';
@@ -56,6 +57,13 @@ export default function LoginScreen() {
       >
         <View style={styles.content}>
           <View style={styles.header}>
+            <View style={styles.iconContainer}>
+              <Image 
+                source={require('../../assets/images/icon.png')} 
+                style={styles.appIcon}
+                resizeMode="contain"
+              />
+            </View>
             <Text style={styles.title}>Entrar no IluminAra</Text>
             <Text style={styles.subtitle}>Bem-vindo de volta! Por favor, insira seus dados.</Text>
           </View>
@@ -169,16 +177,26 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 32,
   },
+  iconContainer: {
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  appIcon: {
+    width: 80,
+    height: 80,
+  },
   title: {
     fontSize: 24,
     fontWeight: '600',
     color: '#1a1a1a',
     marginBottom: 8,
+    textAlign: 'center',
   },
   subtitle: {
     fontSize: 14,
     color: '#666',
     lineHeight: 20,
+    textAlign: 'center',
   },
   form: {
     flex: 1,

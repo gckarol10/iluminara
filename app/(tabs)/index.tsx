@@ -23,14 +23,22 @@ export default function HomeScreen() {
 
   const loadReports = useCallback(async () => {
     try {
-      await fetchReports({ 
+      // Se o usuário estiver autenticado e tiver uma cidade definida, filtra por cidade
+      const filters: any = {
         page: 1,
-        limit: 5 
-      }); // Carrega apenas os 5 mais recentes
+        limit: 5
+      };
+      
+      if (user?.location?.city) {
+        filters.city = user.location.city;
+        filters.state = user.location.state;
+      }
+      
+      await fetchReports(filters);
     } catch (error) {
       console.error('Erro ao carregar relatórios:', error);
     }
-  }, [fetchReports]);
+  }, [fetchReports, user?.location?.city, user?.location?.state]);
 
   useFocusEffect(
     useCallback(() => {
@@ -63,7 +71,7 @@ export default function HomeScreen() {
     if (!user.location.address || !user.location.address.trim()) {
       return 'Toque para adicionar endereço completo';
     }
-    return 'Toque para ver no mapa';
+    return 'Toque para editar endereço';
   };
 
   const formatCurrentDate = () => {
@@ -84,7 +92,7 @@ export default function HomeScreen() {
   };
 
   const handleLocationPicker = () => {
-    router.push('/map/location-picker' as any);
+    router.push('/profile/edit-location' as any);
   };
 
   const handleViewAllReports = () => {
@@ -184,7 +192,9 @@ export default function HomeScreen() {
         {/* Disaster Information */}
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Relatórios Recentes 📍</Text>
+            <Text style={styles.sectionTitle}>
+              Relatórios Recentes 📍
+            </Text>
             <TouchableOpacity onPress={handleViewAllReports}>
               <Text style={styles.seeAllText}>Ver Todos</Text>
             </TouchableOpacity>
@@ -194,8 +204,24 @@ export default function HomeScreen() {
             <View style={styles.loadingContainer}>
               <Text style={styles.loadingText}>Carregando relatórios...</Text>
             </View>
+          ) : !user?.location?.city ? (
+            <View style={styles.emptyContainer}>
+              <Ionicons name="location-outline" size={48} color="#ccc" />
+              <Text style={styles.emptyText}>Configure sua localização</Text>
+              <Text style={styles.emptySubtext}>
+                Defina sua localização para ver relatórios da sua região
+              </Text>
+              <TouchableOpacity style={styles.locationButton} onPress={handleLocationPicker}>
+                <Text style={styles.locationButtonText}>Definir Localização</Text>
+              </TouchableOpacity>
+            </View>
           ) : reports.length > 0 ? (
             <View>
+              {user?.location?.city && (
+                <Text style={styles.filterInfo}>
+                  Mostrando relatórios de {user.location.city}, {user.location.state}
+                </Text>
+              )}
               <FlatList
                 data={reports}
                 renderItem={renderReportCard}
@@ -216,12 +242,22 @@ export default function HomeScreen() {
           ) : (
             <View style={styles.emptyContainer}>
               <Ionicons name="document-outline" size={48} color="#ccc" />
-              <Text style={styles.emptyText}>Nenhum relatório encontrado</Text>
-              <Text style={styles.emptySubtext}>Seja o primeiro a reportar um problema!</Text>
+              <Text style={styles.emptyText}>
+                {user?.location?.city 
+                  ? `Nenhum relatório encontrado em ${user.location.city}`
+                  : 'Nenhum relatório encontrado'
+                }
+              </Text>
+              <Text style={styles.emptySubtext}>
+                {user?.location?.city 
+                  ? 'Seja o primeiro a reportar um problema na sua cidade!'
+                  : 'Configure sua localização para ver relatórios da sua região'
+                }
+              </Text>
             </View>
           )}
 
-          {/* Map Preview */}
+          {/* Location Preview */}
           <TouchableOpacity style={styles.mapContainer} onPress={handleLocationPicker}>
             <View style={styles.mapPlaceholder}>
               <Ionicons 
@@ -396,6 +432,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#1a1a1a',
   },
+  locationSuffix: {
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#2d5016',
+  },
   seeAllText: {
     fontSize: 14,
     color: '#2d5016',
@@ -483,6 +524,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 16,
     marginBottom: 32,
+    paddingBottom: 64,
     gap: 12,
   },
   reportButton: {
@@ -523,6 +565,13 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: 16,
     color: '#666',
+  },
+  filterInfo: {
+    fontSize: 12,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 12,
+    fontStyle: 'italic',
   },
   reportsContainer: {
     paddingLeft: 16,
@@ -613,5 +662,17 @@ const styles = StyleSheet.create({
     color: '#999',
     marginTop: 4,
     textAlign: 'center',
+  },
+  locationButton: {
+    backgroundColor: '#2d5016',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+    marginTop: 12,
+  },
+  locationButtonText: {
+    fontSize: 14,
+    color: '#fff',
+    fontWeight: '600',
   },
 });

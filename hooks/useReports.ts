@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { IssueType, Location, Report, ReportStatus } from '../constants/Api';
+import { IssueType, Location, Report, ReportStatus, TopReportedItem } from '../constants/Api';
 import ApiService from '../services/ApiService';
 
 interface ReportsState {
@@ -24,6 +24,8 @@ export const useReports = () => {
 
   const [myReports, setMyReports] = useState<Report[]>([]);
   const [myReportsLoading, setMyReportsLoading] = useState(false);
+  const [topReported, setTopReported] = useState<TopReportedItem[]>([]);
+  const [topReportedLoading, setTopReportedLoading] = useState(false);
 
   const fetchReports = useCallback(async (filters: {
     city?: string;
@@ -81,6 +83,23 @@ export const useReports = () => {
     } catch (error) {
       setMyReportsLoading(false);
       throw error;
+    }
+  }, []);
+
+  const fetchTopReported = useCallback(async (params: {
+    type?: IssueType;
+    limit?: number;
+  } = {}) => {
+    try {
+      setTopReportedLoading(true);
+      const response = await ApiService.getTopReported(params);
+      setTopReported(response || []);
+      return response;
+    } catch (error) {
+      setTopReportedLoading(false);
+      throw error;
+    } finally {
+      setTopReportedLoading(false);
     }
   }, []);
 
@@ -218,10 +237,13 @@ export const useReports = () => {
     pagination: reportsState.pagination,
     myReports,
     myReportsLoading,
+    topReported,
+    topReportedLoading,
 
     // Actions
     fetchReports,
     fetchMyReports,
+    fetchTopReported,
     createReport,
     getReportById,
     voteOnReport,

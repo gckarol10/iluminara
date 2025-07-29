@@ -22,6 +22,7 @@ import {
   STATUS_COLORS,
   STATUS_LABELS
 } from '../../constants/Api';
+import { useAuth } from '../../hooks/useAuth';
 import { useReports } from '../../hooks/useReports';
 
 interface FilterState {
@@ -34,6 +35,7 @@ interface FilterState {
 
 export default function ReportsListScreen() {
   const { reports, loading, pagination, fetchReports } = useReports();
+  const { user } = useAuth();
   const [refreshing, setRefreshing] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
@@ -68,6 +70,17 @@ export default function ReportsListScreen() {
   useEffect(() => {
     loadReports(1);
   }, [loadReports]);
+
+  // Initialize filters with user location when component mounts
+  useEffect(() => {
+    if (user?.location?.city && user?.location?.state) {
+      setFilters(prev => ({
+        ...prev,
+        city: user.location.city,
+        state: user.location.state
+      }));
+    }
+  }, [user]);
 
   const onRefresh = async () => {
     setRefreshing(true);

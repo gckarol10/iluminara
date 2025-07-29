@@ -5,6 +5,8 @@ export const API_CONFIG = {
     SIGNUP: '/auth/signup',
     SIGNIN: '/auth/signin',
     PROFILE: '/auth/profile',
+    UPDATE_PROFILE: '/auth/profile',
+    UPDATE_PASSWORD: '/auth/change-password',
     LOGOUT: '/auth/logout',
     
     // Reports
@@ -15,6 +17,7 @@ export const API_CONFIG = {
     REPORT_STATUS: '/reports/:id/status',
     REPORT_VOTE: '/reports/:id/vote',
     REPORT_STATISTICS: '/reports/statistics',
+    TOP_REPORTED: '/reports/top-reported',
   }
 };
 
@@ -137,3 +140,20 @@ export interface StatisticsResponse {
   reportsByType: Record<IssueType, number>;
   reportsByCity: Record<string, number>;
 }
+
+export interface TopReportedItem {
+  type: IssueType;
+  city: string;
+  state: string;
+  count: number;
+  latestReport: {
+    _id: string;
+    createdAt: string;
+    description: string;
+    photos: string[];
+    status: ReportStatus;
+  };
+  reportIds: string[];
+}
+
+export type TopReportedResponse = TopReportedItem[];

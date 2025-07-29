@@ -1,60 +1,139 @@
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ISSUE_TYPE_LABELS, ISSUE_TYPES, Report, REPORT_STATUS, STATUS_COLORS, STATUS_LABELS } from '../../constants/Api';
+import { useAuth } from '../../hooks/useAuth';
+import { useReports } from '../../hooks/useReports';
 
 export default function FundsScreen() {
-  const donationCampaigns = [
-    {
-      id: '1',
-      title: 'Ajuda para Enchente na Austrália',
-      description: 'Apoiando comunidades afetadas pelas enchentes recentes',
-      raised: 45000,
-      target: 100000,
-      donors: 1234,
-      urgency: 'Alta',
-    },
-    {
-      id: '2',
-      title: 'Fundo de Recuperação de Terremoto',
-      description: 'Ajuda emergencial para vítimas de terremoto',
-      raised: 78000,
-      target: 150000,
-      donors: 2156,
-      urgency: 'Crítica',
-    },
-    {
-      id: '3',
-      title: 'Reparo de Infraestrutura',
-      description: 'Consertando estradas e pontes danificadas',
-      raised: 32000,
-      target: 80000,
-      donors: 567,
-      urgency: 'Média',
-    },
-  ];
+  const [myReports, setMyReports] = useState<Report[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { fetchMyReports, fetchTopReported, topReported, topReportedLoading } = useReports();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
 
-  const getUrgencyColor = (urgency: string) => {
-    switch (urgency) {
-      case 'Crítica': return '#ff1744';
-      case 'Alta': return '#ff9800';
-      case 'Média': return '#2196f3';
-      default: return '#4caf50';
+  const loadMyReports = useCallback(async () => {
+    if (!isAuthenticated) {
+      setError('Você precisa estar logado para ver seus relatórios.');
+      setMyReports([]);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Call the real API to get user's reports
+      const response = await fetchMyReports(1, 20); // page 1, limit 20
+      
+      if (response && response.reports) {
+        setMyReports(response.reports);
+      } else {
+        setMyReports([]);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar meus relatórios:', error);
+      setError('Erro ao carregar relatórios. Tente novamente.');
+      setMyReports([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [isAuthenticated, fetchMyReports]);
+
+  const loadTopReported = useCallback(async () => {
+    try {
+      await fetchTopReported({ limit: 3 }); // Get top 3 most reported items
+    } catch (error) {
+      console.error('Erro ao carregar mais reportados:', error);
+    }
+  }, [fetchTopReported]);
+
+  useEffect(() => {
+    if (isAuthenticated && !authLoading) {
+      loadMyReports();
+    }
+  }, [isAuthenticated, authLoading, loadMyReports]);
+
+  useEffect(() => {
+    // Load top reported items regardless of authentication
+    loadTopReported();
+  }, [loadTopReported]);
+
+  const getStatusColor = (status: keyof typeof REPORT_STATUS) => {
+    return STATUS_COLORS[status];
+  };
+
+  const getStatusLabel = (status: keyof typeof REPORT_STATUS) => {
+    return STATUS_LABELS[status];
+  };
+
+  const getTypeLabel = (type: keyof typeof ISSUE_TYPES) => {
+    return ISSUE_TYPE_LABELS[type];
+  };
+
+  const getTypeIcon = (type: keyof typeof ISSUE_TYPES) => {
+    switch (type) {
+      case 'STREETLIGHT': return 'bulb';
+      case 'POTHOLE': return 'warning';
+      case 'GARBAGE': return 'trash';
+      case 'TRAFFIC_SIGN': return 'stop';
+      case 'SIDEWALK': return 'walk';
+      default: return 'alert-circle';
     }
   };
 
-  const formatAmount = (amount: number) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-      minimumFractionDigits: 0,
-    }).format(amount);
+  const insights = useMemo(() => {
+    if (!myReports.length) {
+      return {
+        totalViews: 0,
+        totalReports: 0,
+        resolvedReports: 0,
+        totalVotes: 0,
+        avgVotesPerReport: 0,
+        mostCommonType: 'N/A',
+      };
+    }
+
+    const totalViews = myReports.reduce((sum, report) => sum + report.views, 0);
+    const totalReports = myReports.length;
+    const resolvedReports = myReports.filter(report => report.status === 'RESOLVED').length;
+    const totalVotes = myReports.reduce((sum, report) => sum + report.votes, 0);
+    const avgVotesPerReport = Math.round(totalVotes / totalReports);
+
+    // Find most common report type
+    const typeCounts = myReports.reduce((acc, report) => {
+      acc[report.type] = (acc[report.type] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    const mostCommonType = Object.keys(typeCounts).reduce((a, b) => 
+      typeCounts[a] > typeCounts[b] ? a : b
+    );
+
+    return {
+      totalViews,
+      totalReports,
+      resolvedReports,
+      totalVotes,
+      avgVotesPerReport,
+      mostCommonType: ISSUE_TYPE_LABELS[mostCommonType as keyof typeof ISSUE_TYPES] || mostCommonType,
+    };
+  }, [myReports]);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
   };
 
   return (
@@ -71,20 +150,41 @@ export default function FundsScreen() {
         {/* Summary Card */}
         <View style={styles.summaryCard}>
           <Text style={styles.summaryTitle}>Insights</Text>
-          <View style={styles.summaryStats}>
-            <View style={styles.statItem}>
-              <Text style={styles.statValue}>R$ 2.450</Text>
-              <Text style={styles.statLabel}>Em obras realizadas</Text>
+          {!isAuthenticated ? (
+            <View style={styles.noDataContainer}>
+              <Text style={styles.noDataText}>Faça login para ver suas estatísticas</Text>
             </View>
-            <View style={styles.statItem}>
-              <Text style={styles.statValue}>12</Text>
-              <Text style={styles.statLabel}>Reportados</Text>
+          ) : myReports.length === 0 ? (
+            <View style={styles.noDataContainer}>
+              <Text style={styles.noDataText}>Crie seu primeiro relatório para ver insights</Text>
             </View>
-            <View style={styles.statItem}>
-              <Text style={styles.statValue}>856</Text>
-              <Text style={styles.statLabel}>Pessoas Ajudadas</Text>
-            </View>
-          </View>
+          ) : (
+            <>
+              <View style={styles.summaryStats}>
+                <View style={styles.statItem}>
+                  <Text style={styles.statValue}>{insights.totalReports}</Text>
+                  <Text style={styles.statLabel}>Relatórios</Text>
+                </View>
+                <View style={styles.statItem}>
+                  <Text style={styles.statValue}>{insights.totalVotes}</Text>
+                  <Text style={styles.statLabel}>Votos recebidos</Text>
+                </View>
+                <View style={styles.statItem}>
+                  <Text style={styles.statValue}>{insights.totalViews}</Text>
+                  <Text style={styles.statLabel}>Visualizações</Text>
+                </View>
+              </View>
+              <View style={styles.insightFooter}>
+                <Text style={styles.insightFooterText}>
+                  Taxa de resolução: {insights.totalReports > 0 ? Math.round((insights.resolvedReports / insights.totalReports) * 100) : 0}% • 
+                  Média de votos: {insights.avgVotesPerReport}
+                </Text>
+                <Text style={[styles.insightFooterText, { marginTop: 4 }]}>
+                  Tipo mais reportado: {insights.mostCommonType}
+                </Text>
+              </View>
+            </>
+          )}
         </View>
 
         {/* Quick Donate */}
@@ -102,74 +202,118 @@ export default function FundsScreen() {
           </TouchableOpacity>
         </View> */}
 
-        {/* Active Campaigns */}
+        {/* My Reports */}
         <View style={styles.campaignsContainer}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Minhas solicitações</Text>
-            <TouchableOpacity>
-              <Text style={styles.viewAllText}>Ver Todas</Text>
+            <TouchableOpacity onPress={loadMyReports}>
+              <Text style={styles.viewAllText}>Atualizar</Text>
             </TouchableOpacity>
           </View>
 
-          {donationCampaigns.map((campaign) => (
-            <View key={campaign.id} style={styles.campaignCard}>
-              <View style={styles.campaignHeader}>
-                <Text style={styles.campaignTitle}>{campaign.title}</Text>
-                <View style={[styles.urgencyBadge, { backgroundColor: getUrgencyColor(campaign.urgency) }]}>
-                  <Text style={styles.urgencyText}>{campaign.urgency}</Text>
-                </View>
-              </View>
-              
-              <Text style={styles.campaignDescription}>{campaign.description}</Text>
-              
-              <View style={styles.progressContainer}>
-                <View style={styles.progressBar}>
-                  <View 
-                    style={[
-                      styles.progressFill, 
-                      { width: `${(campaign.raised / campaign.target) * 100}%` }
-                    ]} 
-                  />
-                </View>
-                <Text style={styles.progressText}>
-                  {formatAmount(campaign.raised)} arrecadados de {formatAmount(campaign.target)}
-                </Text>
-              </View>
-              
-              <View style={styles.campaignFooter}>
-                <Text style={styles.donorsText}>{campaign.donors} votos</Text>
-                <TouchableOpacity style={styles.donateButton}>
-                  <Text style={styles.donateButtonText}>Aprovado</Text>
-                </TouchableOpacity>
-              </View>
+          {authLoading ? (
+            <View style={styles.loadingContainer}>
+              <Text style={styles.loadingText}>Verificando autenticação...</Text>
             </View>
-          ))}
+          ) : !isAuthenticated ? (
+            <View style={styles.emptyContainer}>
+              <Ionicons name="person-circle-outline" size={48} color="#ccc" />
+              <Text style={styles.emptyTitle}>Login necessário</Text>
+              <Text style={styles.emptyText}>Faça login para ver suas solicitações</Text>
+            </View>
+          ) : error ? (
+            <View style={styles.errorContainer}>
+              <Text style={styles.errorText}>{error}</Text>
+              <TouchableOpacity onPress={loadMyReports} style={styles.retryButton}>
+                <Text style={styles.retryButtonText}>Tentar novamente</Text>
+              </TouchableOpacity>
+            </View>
+          ) : loading ? (
+            <View style={styles.loadingContainer}>
+              <Text style={styles.loadingText}>Carregando...</Text>
+            </View>
+          ) : myReports.length > 0 ? (
+            myReports.map((report) => (
+              <View key={report._id} style={styles.campaignCard}>
+                <View style={styles.campaignHeader}>
+                  <View style={styles.reportTitleContainer}>
+                    <Ionicons 
+                      name={getTypeIcon(report.type)} 
+                      size={20} 
+                      color="#2d5016" 
+                      style={styles.reportIcon}
+                    />
+                    <Text style={styles.campaignTitle}>{getTypeLabel(report.type)}</Text>
+                  </View>
+                  <View style={[styles.statusBadge, { backgroundColor: getStatusColor(report.status) }]}>
+                    <Text style={styles.statusText}>{getStatusLabel(report.status)}</Text>
+                  </View>
+                </View>
+                
+                <Text style={styles.campaignDescription}>{report.description}</Text>
+                
+                <View style={styles.locationContainer}>
+                  <Ionicons name="location-outline" size={14} color="#666" />
+                  <Text style={styles.locationText}>{report.location.address}</Text>
+                </View>
+                
+                <View style={styles.progressContainer}>
+                  <View style={styles.progressBar}>
+                    <View 
+                      style={[
+                        styles.progressFill, 
+                        { width: `${Math.min((report.votes / 50) * 100, 100)}%` }
+                      ]} 
+                    />
+                  </View>
+                  <Text style={styles.progressText}>
+                    {report.votes} votos de 50 necessários
+                  </Text>
+                </View>
+                
+                <View style={styles.campaignFooter}>
+                  <Text style={styles.reportDate}>Criado em {formatDate(report.createdAt)}</Text>
+                  <View style={styles.reportStats}>
+                    <Text style={styles.donorsText}>{report.votes} votos</Text>
+                    <Text style={styles.viewsText}>{report.views} visualizações</Text>
+                  </View>
+                </View>
+              </View>
+            ))
+          ) : (
+            <View style={styles.emptyContainer}>
+              <Ionicons name="document-text-outline" size={48} color="#ccc" />
+              <Text style={styles.emptyTitle}>Nenhuma solicitação encontrada</Text>
+              <Text style={styles.emptyText}>Você ainda não fez nenhum relatório</Text>
+            </View>
+          )}
         </View>
 
-        {/* Recent Donations */}
+        {/* Top Reported */}
         <View style={styles.recentContainer}>
           <Text style={styles.sectionTitle}>Mais reportados</Text>
-          <View style={styles.recentItem}>
-            <View style={styles.recentIcon}>
-              <Ionicons name="water" size={20} color="#2196f3" />
+          {topReportedLoading ? (
+            <View style={styles.loadingContainer}>
+              <Text style={styles.loadingText}>Carregando...</Text>
             </View>
-            <View style={styles.recentInfo}>
-              <Text style={styles.recentTitle}>Vazamento de água</Text>
-              <Text style={styles.recentDate}>2 dias atrás</Text>
+          ) : topReported.length > 0 ? (
+            topReported.map((item, index) => (
+              <View key={index} style={styles.recentItem}>
+                <View style={styles.recentIcon}>
+                  <Ionicons name={getTypeIcon(item.type)} size={20} color="#2196f3" />
+                </View>
+                <View style={styles.recentInfo}>
+                  <Text style={styles.recentTitle}>{getTypeLabel(item.type)}</Text>
+                  <Text style={styles.recentLocation}>{item.city}, {item.state}</Text>
+                  <Text style={styles.recentDate}>{item.count} relatórios • {formatDate(item.latestReport.createdAt)}</Text>
+                </View>
+              </View>
+            ))
+          ) : (
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>Nenhum dado disponível</Text>
             </View>
-            <Text style={styles.recentAmount}>pendente</Text>
-          </View>
-          
-          <View style={styles.recentItem}>
-            <View style={styles.recentIcon}>
-              <Ionicons name="home" size={20} color="#ff9800" />
-            </View>
-            <View style={styles.recentInfo}>
-              <Text style={styles.recentTitle}>Falta de energia residencial</Text>
-              <Text style={styles.recentDate}>1 semana</Text>
-            </View>
-            <Text style={styles.recentAmount}>pendente</Text>
-          </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -228,6 +372,28 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'rgba(255, 255, 255, 0.8)',
     marginTop: 4,
+  },
+  insightFooter: {
+    marginTop: 16,
+    paddingTop: 16,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  insightFooterText: {
+    fontSize: 12,
+    color: 'rgba(255, 255, 255, 0.9)',
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+  noDataContainer: {
+    paddingVertical: 20,
+    alignItems: 'center',
+  },
+  noDataText: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    textAlign: 'center',
+    fontStyle: 'italic',
   },
   quickDonateContainer: {
     paddingHorizontal: 16,
@@ -297,12 +463,30 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: 8,
   },
+  reportTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    marginRight: 12,
+  },
+  reportIcon: {
+    marginRight: 8,
+  },
   campaignTitle: {
     fontSize: 16,
     fontWeight: '600',
     color: '#1a1a1a',
     flex: 1,
-    marginRight: 12,
+  },
+  statusBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  statusText: {
+    fontSize: 10,
+    color: '#fff',
+    fontWeight: '600',
   },
   urgencyBadge: {
     paddingHorizontal: 8,
@@ -317,8 +501,18 @@ const styles = StyleSheet.create({
   campaignDescription: {
     fontSize: 14,
     color: '#666',
-    marginBottom: 16,
+    marginBottom: 12,
     lineHeight: 20,
+  },
+  locationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  locationText: {
+    fontSize: 12,
+    color: '#666',
+    marginLeft: 4,
   },
   progressContainer: {
     marginBottom: 16,
@@ -343,9 +537,71 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  reportDate: {
+    fontSize: 12,
+    color: '#666',
+  },
+  reportStats: {
+    flexDirection: 'row',
+    gap: 12,
+  },
   donorsText: {
     fontSize: 12,
     color: '#666',
+  },
+  viewsText: {
+    fontSize: 12,
+    color: '#666',
+  },
+  loadingContainer: {
+    padding: 32,
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#666',
+  },
+  emptyContainer: {
+    padding: 32,
+    alignItems: 'center',
+  },
+  emptyTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#666',
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  emptyText: {
+    fontSize: 14,
+    color: '#999',
+    textAlign: 'center',
+  },
+  errorContainer: {
+    padding: 16,
+    alignItems: 'center',
+    backgroundColor: '#fff3f3',
+    borderRadius: 8,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#ffebee',
+  },
+  errorText: {
+    fontSize: 14,
+    color: '#d32f2f',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  retryButton: {
+    backgroundColor: '#d32f2f',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    fontSize: 12,
+    color: '#fff',
+    fontWeight: '600',
   },
   donateButton: {
     backgroundColor: '#2d5016',
@@ -361,6 +617,7 @@ const styles = StyleSheet.create({
   recentContainer: {
     paddingHorizontal: 16,
     marginBottom: 32,
+    paddingBottom: 64,
   },
   recentItem: {
     flexDirection: 'row',
@@ -386,6 +643,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     color: '#1a1a1a',
+  },
+  recentLocation: {
+    fontSize: 12,
+    color: '#666',
+    marginTop: 2,
   },
   recentDate: {
     fontSize: 12,

@@ -50,7 +50,8 @@ export default function ProfileScreen() {
   };
 
   const menuItems = [
-    { icon: 'person-outline', title: 'Editar Perfil', action: () => {} },
+    { icon: 'person-outline', title: 'Editar Perfil', action: () => router.push('/profile/edit-profile' as any) },
+    { icon: 'location-outline', title: 'Editar Localização', action: () => router.push('/profile/edit-location' as any) },
     { icon: 'document-text-outline', title: 'Meus Relatórios', action: () => {} },
     { icon: 'heart-outline', title: 'Locais Favoritos', action: () => {} },
     { icon: 'shield-outline', title: 'Contatos de Emergência', action: () => {} },
@@ -84,9 +85,15 @@ export default function ProfileScreen() {
           
           <Text style={styles.userName}>{user?.name || 'Usuário'}</Text>
           <Text style={styles.userEmail}>{user?.email || 'email@exemplo.com'}</Text>
-          <Text style={styles.userLocation}>
-            📍 {user?.location?.city || 'Cidade'}, {user?.location?.state || 'UF'}
-          </Text>
+          <TouchableOpacity 
+            style={styles.userLocationContainer}
+            onPress={() => router.push('/profile/edit-location' as any)}
+          >
+            <Text style={styles.userLocation}>
+              📍 {user?.location?.city || 'Cidade'}, {user?.location?.state || 'UF'}
+            </Text>
+            <Ionicons name="pencil" size={14} color="#2d5016" />
+          </TouchableOpacity>
           
           <View style={styles.verificationBadge}>
             <Ionicons 
@@ -244,6 +251,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     marginBottom: 12,
+  },
+  userLocationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f8f9fa',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    marginBottom: 12,
+    gap: 8,
   },
   verificationBadge: {
     flexDirection: 'row',

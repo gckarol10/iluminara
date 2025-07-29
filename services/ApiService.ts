@@ -95,6 +95,31 @@ class ApiService {
     return this.request<User>(API_CONFIG.ENDPOINTS.PROFILE);
   }
 
+  async updateProfile(userData: {
+    name?: string;
+    location?: Location;
+  }): Promise<User> {
+    const response = await this.request<User>(API_CONFIG.ENDPOINTS.UPDATE_PROFILE, {
+      method: 'PATCH',
+      body: JSON.stringify(userData),
+    });
+
+    // Update stored user data
+    await AsyncStorage.setItem('userData', JSON.stringify(response));
+
+    return response;
+  }
+
+  async updatePassword(passwordData: {
+    currentPassword: string;
+    newPassword: string;
+  }): Promise<{ message: string }> {
+    return this.request<{ message: string }>(API_CONFIG.ENDPOINTS.UPDATE_PASSWORD, {
+      method: 'PATCH',
+      body: JSON.stringify(passwordData),
+    });
+  }
+
   async logout(): Promise<void> {
     try {
       await this.request(API_CONFIG.ENDPOINTS.LOGOUT, { method: 'POST' });
@@ -268,6 +293,21 @@ class ApiService {
 
   async getStatistics(): Promise<StatisticsResponse> {
     return this.request<StatisticsResponse>(API_CONFIG.ENDPOINTS.REPORT_STATISTICS);
+  }
+
+  async getTopReported(params: {
+    type?: IssueType;
+    limit?: number;
+  } = {}): Promise<any[]> {
+    const queryParams = new URLSearchParams();
+    
+    if (params.type) queryParams.append('type', params.type);
+    if (params.limit) queryParams.append('limit', params.limit.toString());
+
+    const queryString = queryParams.toString();
+    const endpoint = queryString ? `${API_CONFIG.ENDPOINTS.TOP_REPORTED}?${queryString}` : API_CONFIG.ENDPOINTS.TOP_REPORTED;
+    
+    return this.request<any[]>(endpoint);
   }
 }
 

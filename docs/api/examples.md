@@ -164,6 +164,308 @@ const RegisterScreen = ({ navigation }) => {
 };
 ```
 
+#### 1.3 Update Profile Screen Implementation
+```javascript
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, TouchableOpacity, Text, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const UpdateProfileScreen = ({ navigation }) => {
+  const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    location: {
+      address: '',
+      city: '',
+      state: '',
+      coordinates: []
+    }
+  });
+
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const loadUserData = async () => {
+    try {
+      const storedUser = await AsyncStorage.getItem('userData');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        setUserData(user);
+        setFormData({
+          name: user.name || '',
+          location: user.location || {
+            address: '',
+            city: '',
+            state: '',
+            coordinates: []
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error loading user data:', error);
+    }
+  };
+
+  const handleUpdateProfile = async () => {
+    if (!formData.location.city.trim() || !formData.location.state.trim()) {
+      Alert.alert('Erro', 'Por favor, preencha cidade e estado');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const token = await AsyncStorage.getItem('authToken');
+      const response = await fetch('http://localhost:3000/auth/profile', {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          location: formData.location
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Update stored user data
+        await AsyncStorage.setItem('userData', JSON.stringify(data));
+        
+        Alert.alert('Sucesso', 'Perfil atualizado com sucesso!', [
+          { text: 'OK', onPress: () => navigation.goBack() }
+        ]);
+      } else {
+        Alert.alert('Erro', data.message || 'Erro ao atualizar perfil');
+      }
+    } catch (error) {
+      Alert.alert('Erro', 'Erro de conexão');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <View style={{ padding: 20 }}>
+      <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>
+        Atualizar Perfil
+      </Text>
+
+      <TextInput
+        placeholder="Nome completo"
+        value={formData.name}
+        onChangeText={(text) => setFormData({...formData, name: text})}
+        style={{ marginBottom: 15, padding: 10, borderWidth: 1, borderColor: '#ccc' }}
+      />
+
+      <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Localização:</Text>
+      
+      <TextInput
+        placeholder="Endereço completo"
+        value={formData.location.address}
+        onChangeText={(text) => setFormData({
+          ...formData, 
+          location: {...formData.location, address: text}
+        })}
+        style={{ marginBottom: 15, padding: 10, borderWidth: 1, borderColor: '#ccc' }}
+        multiline
+      />
+      
+      <TextInput
+        placeholder="Cidade"
+        value={formData.location.city}
+        onChangeText={(text) => setFormData({
+          ...formData, 
+          location: {...formData.location, city: text}
+        })}
+        style={{ marginBottom: 15, padding: 10, borderWidth: 1, borderColor: '#ccc' }}
+      />
+      
+      <TextInput
+        placeholder="Estado (UF)"
+        value={formData.location.state}
+        onChangeText={(text) => setFormData({
+          ...formData, 
+          location: {...formData.location, state: text.toUpperCase()}
+        })}
+        maxLength={2}
+        autoCapitalize="characters"
+        style={{ marginBottom: 20, padding: 10, borderWidth: 1, borderColor: '#ccc' }}
+      />
+
+      <TouchableOpacity 
+        onPress={handleUpdateProfile} 
+        disabled={loading}
+        style={{ 
+          backgroundColor: loading ? '#ccc' : '#007bff', 
+          padding: 15, 
+          borderRadius: 5,
+          marginBottom: 10
+        }}
+      >
+        <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>
+          {loading ? 'Atualizando...' : 'Atualizar Perfil'}
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity 
+        onPress={() => navigation.goBack()}
+        style={{ 
+          backgroundColor: '#6c757d', 
+          padding: 15, 
+          borderRadius: 5 
+        }}
+      >
+        <Text style={{ color: 'white', textAlign: 'center' }}>
+          Cancelar
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+```
+
+#### 1.4 Update Password Screen Implementation
+```javascript
+import React, { useState } from 'react';
+import { View, TextInput, TouchableOpacity, Text, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const UpdatePasswordScreen = ({ navigation }) => {
+  const [loading, setLoading] = useState(false);
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [showPasswords, setShowPasswords] = useState({
+    current: false,
+    new: false,
+    confirm: false
+  });
+
+  const handleUpdatePassword = async () => {
+    // Validações
+    if (!passwordData.currentPassword.trim()) {
+      Alert.alert('Erro', 'Por favor, informe a senha atual');
+      return;
+    }
+    if (!passwordData.newPassword.trim()) {
+      Alert.alert('Erro', 'Por favor, informe a nova senha');
+      return;
+    }
+    if (passwordData.newPassword.length < 6) {
+      Alert.alert('Erro', 'A nova senha deve ter pelo menos 6 caracteres');
+      return;
+    }
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      Alert.alert('Erro', 'A confirmação da senha não confere');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const token = await AsyncStorage.getItem('authToken');
+      const response = await fetch('http://localhost:3000/auth/change-password', {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentPassword: passwordData.currentPassword,
+          newPassword: passwordData.newPassword
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        Alert.alert('Sucesso', 'Senha atualizada com sucesso!', [
+          { text: 'OK', onPress: () => navigation.goBack() }
+        ]);
+        
+        // Limpar formulário
+        setPasswordData({
+          currentPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        });
+      } else {
+        Alert.alert('Erro', data.message || 'Erro ao atualizar senha');
+      }
+    } catch (error) {
+      Alert.alert('Erro', 'Erro de conexão');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <View style={{ padding: 20 }}>
+      <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>
+        Alterar Senha
+      </Text>
+
+      <TextInput
+        placeholder="Senha atual"
+        value={passwordData.currentPassword}
+        onChangeText={(text) => setPasswordData({...passwordData, currentPassword: text})}
+        secureTextEntry={!showPasswords.current}
+        style={{ marginBottom: 15, padding: 10, borderWidth: 1, borderColor: '#ccc' }}
+      />
+
+      <TextInput
+        placeholder="Nova senha (mín. 6 caracteres)"
+        value={passwordData.newPassword}
+        onChangeText={(text) => setPasswordData({...passwordData, newPassword: text})}
+        secureTextEntry={!showPasswords.new}
+        style={{ marginBottom: 15, padding: 10, borderWidth: 1, borderColor: '#ccc' }}
+      />
+
+      <TextInput
+        placeholder="Confirmar nova senha"
+        value={passwordData.confirmPassword}
+        onChangeText={(text) => setPasswordData({...passwordData, confirmPassword: text})}
+        secureTextEntry={!showPasswords.confirm}
+        style={{ marginBottom: 20, padding: 10, borderWidth: 1, borderColor: '#ccc' }}
+      />
+
+      <TouchableOpacity 
+        onPress={handleUpdatePassword} 
+        disabled={loading}
+        style={{ 
+          backgroundColor: loading ? '#ccc' : '#007bff', 
+          padding: 15, 
+          borderRadius: 5,
+          marginBottom: 10
+        }}
+      >
+        <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>
+          {loading ? 'Atualizando...' : 'Alterar Senha'}
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity 
+        onPress={() => navigation.goBack()}
+        style={{ 
+          backgroundColor: '#6c757d', 
+          padding: 15, 
+          borderRadius: 5 
+        }}
+      >
+        <Text style={{ color: 'white', textAlign: 'center' }}>
+          Cancelar
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+```
+
 ### 2. Reports Management
 
 #### 2.1 Create Report Screen
@@ -725,6 +1027,24 @@ class ApiService {
 
   async getProfile() {
     return this.request('/auth/profile');
+  }
+
+  async updateProfile(userData) {
+    const response = await this.request('/auth/profile', {
+      method: 'PATCH',
+      body: JSON.stringify(userData),
+    });
+
+    // Update stored user data
+    await AsyncStorage.setItem('userData', JSON.stringify(response));
+    return response;
+  }
+
+  async updatePassword(passwordData) {
+    return this.request('/auth/change-password', {
+      method: 'PATCH',
+      body: JSON.stringify(passwordData),
+    });
   }
 
   async logout() {

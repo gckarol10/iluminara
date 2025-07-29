@@ -103,7 +103,67 @@ const getUserProfile = async (token) => {
 };
 ```
 
-### 1.4 Logout
+### 1.4 Update User Profile
+```javascript
+// PATCH /auth/profile
+const updateUserProfile = async (updateData, token) => {
+  const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: updateData.name,              // Optional: string
+      location: {
+        address: updateData.location.address,    // Optional: string
+        city: updateData.location.city,          // Optional: string
+        state: updateData.location.state,        // Optional: string
+        coordinates: updateData.location.coordinates // Optional: [longitude, latitude]
+      }
+    })
+  });
+  return response.json();
+};
+
+// Example payload:
+const updateProfilePayload = {
+  name: "João Silva Santos",
+  location: {
+    address: "Rua das Palmeiras, 456 - Centro",
+    city: "Araçuaí",
+    state: "MG",
+    coordinates: [-16.8497, -42.0697]
+  }
+};
+```
+
+### 1.5 Update Password
+```javascript
+// PATCH /auth/change-password
+const updateUserPassword = async (passwordData, token) => {
+  const response = await fetch(`${API_BASE_URL}/auth/change-password`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      currentPassword: passwordData.currentPassword, // Required: string
+      newPassword: passwordData.newPassword          // Required: string (min 6 chars)
+    })
+  });
+  return response.json();
+};
+
+// Example payload:
+const updatePasswordPayload = {
+  currentPassword: "senhaAtual123",
+  newPassword: "novaSenhaSegura456"
+};
+```
+
+### 1.6 Logout
 ```javascript
 // POST /auth/logout
 const logoutUser = async (token) => {
@@ -654,3 +714,14 @@ const sampleReport = {
 ---
 
 **Note**: Remember to replace `http://localhost:3000` with your actual API base URL when deploying to production.
+
+
+### **GET `/reports/top-reported`**
+Retorna os itens mais reportados, agrupados por tipo e localização.
+
+## 📋 **Parâmetros de Query (Opcionais)**
+
+| Parâmetro | Tipo | Default | Descrição |
+|-----------|------|---------|-----------|
+| `type` | `string` | `undefined` | Filtrar por tipo específico |
+| `limit` | `number` | `3` | Limite de resultados (1-50) |

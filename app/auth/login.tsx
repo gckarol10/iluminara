@@ -2,34 +2,40 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { login, isLoading } = useAuth();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert('Error', 'Please fill in all fields');
+      Alert.alert('Erro', 'Por favor, preencha todos os campos');
       return;
     }
     
-    // Here you would implement actual authentication
-    console.log('Login attempt:', { email, password, rememberMe });
-    
-    // Navigate to main app
-    router.replace('/(tabs)');
+    try {
+      await login(email, password);
+      
+      // Navigate to main app
+      router.replace('/(tabs)');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Erro ao fazer login';
+      Alert.alert('Erro', errorMessage);
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -50,8 +56,8 @@ export default function LoginScreen() {
       >
         <View style={styles.content}>
           <View style={styles.header}>
-            <Text style={styles.title}>Sign in to Wecare</Text>
-            <Text style={styles.subtitle}>Welcome back! Please enter your details.</Text>
+            <Text style={styles.title}>Entrar no IluminAra</Text>
+            <Text style={styles.subtitle}>Bem-vindo de volta! Por favor, insira seus dados.</Text>
           </View>
 
           <View style={styles.form}>
@@ -59,7 +65,7 @@ export default function LoginScreen() {
               <Text style={styles.label}>Email</Text>
               <TextInput
                 style={styles.input}
-                placeholder="Enter your email address"
+                placeholder="Digite seu endereço de email"
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
@@ -69,11 +75,11 @@ export default function LoginScreen() {
             </View>
 
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>Password</Text>
+              <Text style={styles.label}>Senha</Text>
               <View style={styles.passwordContainer}>
                 <TextInput
                   style={styles.passwordInput}
-                  placeholder="Enter your password"
+                  placeholder="Digite sua senha"
                   value={password}
                   onChangeText={setPassword}
                   secureTextEntry={!showPassword}
@@ -100,37 +106,43 @@ export default function LoginScreen() {
                 <View style={[styles.checkbox, rememberMe && styles.checkedBox]}>
                   {rememberMe && <Ionicons name="checkmark" size={14} color="white" />}
                 </View>
-                <Text style={styles.rememberText}>Remember Me</Text>
+                <Text style={styles.rememberText}>Lembrar de mim</Text>
               </TouchableOpacity>
 
               <TouchableOpacity>
-                <Text style={styles.forgotText}>Forgot Password</Text>
+                <Text style={styles.forgotText}>Esqueci a senha</Text>
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.signInButton} onPress={handleLogin}>
-              <Text style={styles.signInButtonText}>Sign In</Text>
+            <TouchableOpacity 
+              style={[styles.signInButton, isLoading && styles.disabledButton]} 
+              onPress={handleLogin}
+              disabled={isLoading}
+            >
+              <Text style={styles.signInButtonText}>
+                {isLoading ? 'Entrando...' : 'Entrar'}
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.googleButton} onPress={handleGoogleLogin}>
               <Ionicons name="logo-google" size={20} color="#4285F4" />
-              <Text style={styles.googleButtonText}>Continue with Google</Text>
+              <Text style={styles.googleButtonText}>Continuar com Google</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.appleButton} onPress={handleAppleLogin}>
               <Ionicons name="logo-apple" size={20} color="#000" />
-              <Text style={styles.appleButtonText}>Continue with Apple</Text>
+              <Text style={styles.appleButtonText}>Continuar com Apple</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>
-              Don&apos;t have an account?{' '}
+              Não tem uma conta?{' '}
               <Text
                 style={styles.signUpText}
                 onPress={() => router.push('/auth/register' as any)}
               >
-                Sign Up
+                Cadastre-se
               </Text>
             </Text>
           </View>
@@ -249,6 +261,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  disabledButton: {
+    backgroundColor: '#ccc',
+    opacity: 0.7,
   },
   googleButton: {
     flexDirection: 'row',

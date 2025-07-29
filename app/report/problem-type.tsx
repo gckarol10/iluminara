@@ -2,16 +2,17 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ISSUE_TYPES, ISSUE_TYPE_LABELS } from '../../constants/Api';
 
 interface ProblemType {
-  id: string;
+  id: keyof typeof ISSUE_TYPES;
   icon: string;
   title: string;
   color: string;
@@ -23,46 +24,46 @@ export default function ProblemTypeScreen() {
 
   const problemTypes: ProblemType[] = [
     {
-      id: 'electricity',
-      icon: 'flash',
-      title: 'Eletricidade',
-      color: '#ffeb3b',
-      description: 'Falta de energia, fios danificados, postes de luz',
-    },
-    {
-      id: 'water',
-      icon: 'water',
-      title: 'Problemas de Água',
-      color: '#2196f3',
-      description: 'Vazamentos, canos quebrados, qualidade da água',
-    },
-    {
-      id: 'roads',
+      id: 'POTHOLE',
       icon: 'car',
-      title: 'Problemas na Estrada',
+      title: ISSUE_TYPE_LABELS.POTHOLE,
       color: '#607d8b',
-      description: 'Buracos, estradas danificadas, placas de trânsito',
+      description: 'Buracos na rua, problemas no pavimento',
     },
     {
-      id: 'waste',
+      id: 'STREETLIGHT',
+      icon: 'flash',
+      title: ISSUE_TYPE_LABELS.STREETLIGHT,
+      color: '#ffeb3b',
+      description: 'Postes queimados, falta de iluminação pública',
+    },
+    {
+      id: 'GARBAGE',
       icon: 'trash',
-      title: 'Gestão de Resíduos',
+      title: ISSUE_TYPE_LABELS.GARBAGE,
       color: '#4caf50',
       description: 'Coleta de lixo, descarte irregular',
     },
     {
-      id: 'safety',
-      icon: 'shield',
-      title: 'Segurança Pública',
+      id: 'TRAFFIC_SIGN',
+      icon: 'stop',
+      title: ISSUE_TYPE_LABELS.TRAFFIC_SIGN,
       color: '#f44336',
-      description: 'Áreas perigosas, cercas quebradas, riscos',
+      description: 'Placas danificadas, sinalização inadequada',
     },
     {
-      id: 'parks',
-      icon: 'leaf',
-      title: 'Parques e Recreação',
+      id: 'SIDEWALK',
+      icon: 'walk',
+      title: ISSUE_TYPE_LABELS.SIDEWALK,
       color: '#8bc34a',
-      description: 'Equipamentos danificados, problemas de manutenção',
+      description: 'Calçadas quebradas, problemas de acessibilidade',
+    },
+    {
+      id: 'OTHER',
+      icon: 'alert-circle',
+      title: ISSUE_TYPE_LABELS.OTHER,
+      color: '#9e9e9e',
+      description: 'Outros problemas urbanos',
     },
   ];
 
@@ -93,7 +94,7 @@ export default function ProblemTypeScreen() {
     },
   ];
 
-  const handleProblemSelect = (problemId: string) => {
+  const handleProblemSelect = (problemId: keyof typeof ISSUE_TYPES) => {
     setSelectedProblem(problemId);
   };
 

@@ -365,6 +365,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 24,
+    paddingBottom: 84,
     gap: 16,
   },
   callButton: {

@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { router, useLocalSearchParams } from 'expo-router';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     Alert,
     Image,
@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ISSUE_TYPES, ISSUE_TYPE_LABELS, IssueType } from '../../constants/Api';
+import { useAuth } from '../../hooks/useAuth';
 import { useReports } from '../../hooks/useReports';
 
 interface LocationData {
@@ -45,6 +46,7 @@ export default function ReportDetailsScreen() {
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   
   const { createReport } = useReports();
+  const { user } = useAuth();
 
   const getCurrentLocation = async () => {
     if (isLoadingLocation) return;

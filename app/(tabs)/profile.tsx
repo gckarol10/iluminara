@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React from 'react';
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Switch,
@@ -10,17 +11,43 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAuth } from '../../hooks/useAuth';
+import { useReports } from '../../hooks/useReports';
 
 export default function ProfileScreen() {
   const [notificationsEnabled, setNotificationsEnabled] = React.useState(true);
   const [locationEnabled, setLocationEnabled] = React.useState(true);
+  const { user, logout } = useAuth();
+  const { myReports, fetchMyReports } = useReports();
+
+  React.useEffect(() => {
+    if (user) {
+      fetchMyReports();
+    }
+  }, [user, fetchMyReports]);
 
   const profileStats = [
-    { label: 'Relatórios Enviados', value: '23' },
-    { label: 'Problemas Resolvidos', value: '18' },
-    { label: 'Pontos da Comunidade', value: '456' },
-    { label: 'Horas Voluntárias', value: '32' },
+    { label: 'Relatórios Enviados', value: myReports.length.toString() },
+    { label: 'Problemas Resolvidos', value: myReports.filter(r => r.status === 'RESOLVED').length.toString() },
   ];
+
+  const handleLogout = () => {
+    Alert.alert(
+      'Sair',
+      'Tem certeza que deseja sair da sua conta?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        { 
+          text: 'Sair', 
+          style: 'destructive',
+          onPress: async () => {
+            await logout();
+            router.replace('/auth/login' as any);
+          }
+        },
+      ]
+    );
+  };
 
   const menuItems = [
     { icon: 'person-outline', title: 'Editar Perfil', action: () => {} },
@@ -30,7 +57,7 @@ export default function ProfileScreen() {
     { icon: 'card-outline', title: 'Métodos de Pagamento', action: () => {} },
     { icon: 'help-circle-outline', title: 'Ajuda e Suporte', action: () => {} },
     { icon: 'settings-outline', title: 'Configurações', action: () => {} },
-    { icon: 'log-out-outline', title: 'Sair', action: () => router.replace('/auth/login' as any) },
+    { icon: 'log-out-outline', title: 'Sair', action: handleLogout },
   ];
 
   return (
@@ -55,13 +82,22 @@ export default function ProfileScreen() {
             </TouchableOpacity>
           </View>
           
-          <Text style={styles.userName}>Breno Cota</Text>
-          <Text style={styles.userEmail}>breno.cota@gmail.com</Text>
-          <Text style={styles.userLocation}>📍 Araçuaí, MG</Text>
+          <Text style={styles.userName}>{user?.name || 'Usuário'}</Text>
+          <Text style={styles.userEmail}>{user?.email || 'email@exemplo.com'}</Text>
+          <Text style={styles.userLocation}>
+            📍 {user?.location?.city || 'Cidade'}, {user?.location?.state || 'UF'}
+          </Text>
           
           <View style={styles.verificationBadge}>
-            <Ionicons name="checkmark-circle" size={16} color="#4caf50" />
-            <Text style={styles.verificationText}>Cidadão Verificado</Text>
+            <Ionicons 
+              name={user?.verified === 'VERIFIED' ? "checkmark-circle" : "time-outline"} 
+              size={16} 
+              color={user?.verified === 'VERIFIED' ? "#4caf50" : "#ff9800"} 
+            />
+            <Text style={styles.verificationText}>
+              {user?.role === 'CITY_HALL' ? 'Prefeitura' : 
+               user?.verified === 'VERIFIED' ? 'Cidadão Verificado' : 'Verificação Pendente'}
+            </Text>
           </View>
         </View>
 

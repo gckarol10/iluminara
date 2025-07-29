@@ -13,30 +13,53 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function RegisterScreen() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
+  const { register, isLoading } = useAuth();
 
-  const handleRegister = () => {
-    if (!fullName || !email || !password) {
-      Alert.alert('Error', 'Please fill in all fields');
+  const handleRegister = async () => {
+    if (!fullName || !email || !password || !address || !city || !state) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios');
       return;
     }
 
     if (!agreeTerms) {
-      Alert.alert('Error', 'Please agree to the Terms of Service and Privacy Policy');
+      Alert.alert('Erro', 'Por favor, aceite os Termos de Serviço e Política de Privacidade');
+      return;
+    }
+
+    if (state.length !== 2) {
+      Alert.alert('Erro', 'Por favor, digite o estado com 2 letras (ex: MG)');
       return;
     }
     
-    // Here you would implement actual registration
-    console.log('Register attempt:', { fullName, email, password });
-    
-    // Navigate to main app
-    router.replace('/(tabs)');
+    try {
+      await register({
+        name: fullName,
+        email,
+        password,
+        location: {
+          address,
+          city,
+          state: state.toUpperCase(),
+        }
+      });
+      
+      // Navigate to main app
+      router.replace('/(tabs)');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Erro ao criar conta';
+      Alert.alert('Erro', errorMessage);
+    }
   };
 
   const handleGoogleSignUp = () => {
@@ -58,15 +81,15 @@ export default function RegisterScreen() {
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.content}>
             <View style={styles.header}>
-              <Text style={styles.title}>Sign Up</Text>
-              <Text style={styles.subtitle}>Full Name</Text>
+              <Text style={styles.title}>Cadastrar</Text>
+              <Text style={styles.subtitle}>Nome completo</Text>
             </View>
 
             <View style={styles.form}>
               <View style={styles.inputContainer}>
                 <TextInput
                   style={styles.input}
-                  placeholder="Enter your full name"
+                  placeholder="Digite seu nome completo"
                   value={fullName}
                   onChangeText={setFullName}
                   autoCapitalize="words"
@@ -78,7 +101,7 @@ export default function RegisterScreen() {
                 <Text style={styles.label}>Email</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="Enter your email address"
+                  placeholder="Digite seu endereço de email"
                   value={email}
                   onChangeText={setEmail}
                   keyboardType="email-address"
@@ -88,11 +111,11 @@ export default function RegisterScreen() {
               </View>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Password</Text>
+                <Text style={styles.label}>Senha</Text>
                 <View style={styles.passwordContainer}>
                   <TextInput
                     style={styles.passwordInput}
-                    placeholder="Enter your password"
+                    placeholder="Digite sua senha"
                     value={password}
                     onChangeText={setPassword}
                     secureTextEntry={!showPassword}
@@ -111,6 +134,39 @@ export default function RegisterScreen() {
                 </View>
               </View>
 
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Endereço</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Digite seu endereço completo"
+                  value={address}
+                  onChangeText={setAddress}
+                  autoComplete="street-address"
+                />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Cidade</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Digite sua cidade"
+                  value={city}
+                  onChangeText={setCity}
+                />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Estado (UF)</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Ex: MG"
+                  value={state}
+                  onChangeText={setState}
+                  maxLength={2}
+                  autoCapitalize="characters"
+                />
+              </View>
+
               <View style={styles.termsContainer}>
                 <TouchableOpacity
                   style={styles.checkboxContainer}
@@ -120,37 +176,43 @@ export default function RegisterScreen() {
                     {agreeTerms && <Ionicons name="checkmark" size={14} color="white" />}
                   </View>
                   <Text style={styles.termsText}>
-                    By signing up, you agree to our{' '}
-                    <Text style={styles.linkText}>Terms of Service</Text>
-                    {' '}and{' '}
-                    <Text style={styles.linkText}>Privacy Policy</Text>.
+                    Ao se cadastrar, você concorda com nossos{' '}
+                    <Text style={styles.linkText}>Termos de Serviço</Text>
+                    {' '}e{' '}
+                    <Text style={styles.linkText}>Política de Privacidade</Text>.
                   </Text>
                 </TouchableOpacity>
               </View>
 
-              <TouchableOpacity style={styles.signUpButton} onPress={handleRegister}>
-                <Text style={styles.signUpButtonText}>Sign Up</Text>
+              <TouchableOpacity 
+                style={[styles.signUpButton, isLoading && styles.disabledButton]} 
+                onPress={handleRegister}
+                disabled={isLoading}
+              >
+                <Text style={styles.signUpButtonText}>
+                  {isLoading ? 'Criando conta...' : 'Criar conta'}
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.googleButton} onPress={handleGoogleSignUp}>
                 <Ionicons name="logo-google" size={20} color="#4285F4" />
-                <Text style={styles.googleButtonText}>Continue with Google</Text>
+                <Text style={styles.googleButtonText}>Continuar com Google</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.appleButton} onPress={handleAppleSignUp}>
                 <Ionicons name="logo-apple" size={20} color="#000" />
-                <Text style={styles.appleButtonText}>Continue with Apple</Text>
+                <Text style={styles.appleButtonText}>Continuar com Apple</Text>
               </TouchableOpacity>
             </View>
 
             <View style={styles.footer}>
               <Text style={styles.footerText}>
-                Already have an account?{' '}
+                Já tem uma conta?{' '}
                 <Text
                   style={styles.signInText}
                   onPress={() => router.push('/auth/login' as any)}
                 >
-                  Sign In
+                  Entrar
                 </Text>
               </Text>
             </View>
@@ -272,6 +334,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  disabledButton: {
+    backgroundColor: '#ccc',
+    opacity: 0.7,
   },
   googleButton: {
     flexDirection: 'row',

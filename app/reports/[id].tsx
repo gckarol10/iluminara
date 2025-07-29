@@ -2,22 +2,23 @@ import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-    ActivityIndicator,
-    Alert,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
-    ISSUE_TYPE_LABELS,
-    Report,
-    STATUS_COLORS,
-    STATUS_LABELS
+  ISSUE_TYPE_LABELS,
+  Report,
+  STATUS_COLORS,
+  STATUS_LABELS
 } from '../../constants/Api';
+import { ENV } from '../../constants/Environment';
 import { useReports } from '../../hooks/useReports';
 
 export default function ReportDetailsScreen() {
@@ -39,6 +40,14 @@ export default function ReportDetailsScreen() {
       setLoading(false);
     }
   }, [getReportById]);
+
+  const formatImageUrl = (imagePath: string) => {
+    if (imagePath.startsWith('http')) {
+      return imagePath; // URL completa
+    }
+
+    return `${ENV.API_BASE_URL}/uploads/${imagePath.replace(/^\//, '')}`;
+  };
 
   useEffect(() => {
     if (id && typeof id === 'string') {
@@ -195,7 +204,10 @@ export default function ReportDetailsScreen() {
               <View style={styles.photosContainer}>
                 {report.photos.map((photo, index) => (
                   <TouchableOpacity key={index} style={styles.photoContainer}>
-                    <Image source={{ uri: photo }} style={styles.photo} />
+                    <Image 
+                      source={{ uri: formatImageUrl(photo) }} 
+                      style={styles.photo}
+                    />
                   </TouchableOpacity>
                 ))}
               </View>

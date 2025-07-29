@@ -23,8 +23,9 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "statusBarStyle": "auto",
+      "statusBarStyle": "dark",
       "statusBarBackgroundColor": "#ffffff",
+      "statusBarTranslucent": false,
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",

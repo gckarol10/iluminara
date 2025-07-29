@@ -1,13 +1,15 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { Platform } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function RootLayout() {
   return (
-    <>
+    <SafeAreaProvider>
       <StatusBar 
         style="dark" 
         backgroundColor="#ffffff"
-        translucent={false}
+        translucent={Platform.OS === 'ios'}
       />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
@@ -16,6 +18,6 @@ export default function RootLayout() {
         <Stack.Screen name="report" />
         <Stack.Screen name="+not-found" />
       </Stack>
-    </>
+    </SafeAreaProvider>
   );
 }

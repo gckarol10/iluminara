@@ -3,13 +3,13 @@ import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Image,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CommunityScreen() {
   const [selectedFilter, setSelectedFilter] = useState('Recentes');
@@ -55,7 +55,7 @@ export default function CommunityScreen() {
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>

@@ -36,7 +36,7 @@ Successfully implemented comprehensive frontend features for the incident report
   
 - **Empty States**: Helpful messages when no comments exist
 
-**Location**: `app/reports/[id].tsx` (Lines 260-320)
+**Location**: `app/reports/[id].tsx` (Comments Section)
 
 ### ✅ 3. Real-Time Tracking of Report Statuses
 **Status**: Newly implemented
@@ -60,7 +60,7 @@ Successfully implemented comprehensive frontend features for the incident report
   - Auto-refresh after adding comments
   - Real-time vote count updates
 
-**Location**: `app/reports/[id].tsx` (Lines 170-230)
+**Location**: `app/reports/[id].tsx` (Status Management Section)
 
 ## Technical Implementation
 
@@ -159,34 +159,37 @@ All features are fully integrated with backend endpoints:
 ## Files Modified
 
 ### Core Implementation
-- **app/reports/[id].tsx** (570 lines changed)
-  - Added commenting system
-  - Added status management
-  - Added voting functionality
-  - Added pull-to-refresh
-  - Added role-based UI
+- **app/reports/[id].tsx**
+  - Added comprehensive commenting system
+  - Added status management for City Hall
+  - Added voting functionality with real-time updates
+  - Added pull-to-refresh capability
+  - Implemented role-based UI rendering
+  - Enhanced with proper error handling and loading states
 
-### Documentation
-- **docs/COMMUNICATION_FEATURES.md** (New file, 204 lines)
+### Documentation Added
+- **docs/COMMUNICATION_FEATURES.md**
   - Complete feature documentation
   - User flow descriptions
-  - API endpoint documentation
+  - API endpoint reference
   - Testing scenarios
-  - Future enhancement ideas
+  - Future enhancement suggestions
 
-- **IMPLEMENTATION_SUMMARY.md** (This file)
+- **IMPLEMENTATION_SUMMARY.md** (This document)
   - Implementation overview
   - Requirements checklist
-  - Technical details
+  - Technical architecture details
+  - Testing recommendations
 
 ## Statistics
 
-- **Lines of Code Added**: 667+
-- **Lines of Code Modified**: 107
-- **New Files Created**: 2
-- **Commits**: 3
-- **TypeScript Errors**: 0
-- **ESLint Errors**: 0
+**Changes in This Implementation**:
+- **Total Lines Changed**: 667+ (across all commits in this feature branch)
+- **Primary File Modified**: app/reports/[id].tsx
+- **Documentation Files**: 2 (COMMUNICATION_FEATURES.md, IMPLEMENTATION_SUMMARY.md)
+- **Feature Commits**: 3
+- **TypeScript Compilation**: ✅ No errors
+- **ESLint**: ✅ No errors
 
 ## Testing Recommendations
 

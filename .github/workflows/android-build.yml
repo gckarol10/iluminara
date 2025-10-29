@@ -1,4 +1,4 @@
-name: Build & Release APK (Expo EAS)
+name: Build & Release APK (Expo Ejected)
 
 on:
   push:
@@ -11,40 +11,51 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 🧱 1. Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # ⚙️ 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: npm
 
+      # 📦 3. Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      # ✅ Install the new Expo CLI (not the deprecated expo-cli)
-      - name: Install Expo & EAS CLI
+      # 🏗️ 4. Generate native Android project from Expo (eject)
+      - name: Prebuild Android project
         run: |
-          npm install -g expo eas-cli
+          npx expo prebuild --platform android --non-interactive
 
-      # ✅ Authenticate with Expo
-      - name: Login to Expo
-        run: |
-          eas login --token ${{ secrets.EXPO_TOKEN }}
+      # 🧰 5. Setup JDK (required for Gradle)
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-      # ✅ Build Android APK using EAS
+      # 🏗️ 6. Build release APK with Gradle
       - name: Build Android APK
         run: |
-          eas build --platform android --profile preview --non-interactive --local
+          cd android
+          ./gradlew assembleRelease
 
-      # ✅ Upload APK artifact to GitHub release
+      # 📦 7. Upload generated APK as GitHub artifact
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
+
+      # 🚀 8. (Optional) Attach APK to GitHub Release when tagged
       - name: Upload APK to Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            dist/*.apk
-            build/**/*.apk
+          files: android/app/build/outputs/apk/release/app-release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

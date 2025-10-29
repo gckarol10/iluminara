@@ -1,0 +1,243 @@
+Implements direct communication between citizens and city hall, submission confirmations, and comprehensive status tracking with estimated resolution times.
+
+## Schema Changes
+
+**Report**
+- `statusHistory[]`: Audit trail of all status changes with user, timestamp, and notes
+- `estimatedResolutionDate`: Expected resolution timeframe
+- `hasUnreadCitizenMessage` / `hasUnreadCityHallResponse`: Notification flags
+
+**Comment**
+- `isResponse`: Distinguishes official city hall responses from regular comments
+
+## New Endpoints
+
+**Citizen Communication**
+- `POST /reports/:id/messages` - Send questions about owned reports
+- `PATCH /reports/:id/mark-read` - Clear notification flags
+
+**Enhanced Status Updates (City Hall)**
+- `PATCH /reports/:id/status-with-estimate` - Update status with resolution date and notes
+
+**History & Tracking**
+- `GET /reports/:id/history` - Complete timeline with status changes and messages
+
+## Example Usage
+
+```typescript
+// Citizen sends message
+POST /reports/abc123/messages
+{
+  "text": "When will this be fixed?"
+}
+
+// City hall updates with estimate
+PATCH /reports/abc123/status-with-estimate
+{
+  "status": "IN_PROGRESS",
+  "estimatedResolutionDate": "2025-11-15T10:00:00Z",
+  "notes": "Team dispatched, repairs scheduled for next week"
+}
+
+// View complete timeline
+GET /reports/abc123/history
+// Returns: statusHistory[], comments[], estimatedResolutionDate, timestamps
+```
+
+## Implementation Notes
+
+- Report creation now returns populated user details for confirmation
+- Authorization enforces report ownership for citizen messages
+- Status history automatically tracked on all status changes
+- Notification flags enable real-time update awareness
+- 9 new unit tests cover authorization, messaging, and tracking flows
+
+> [!WARNING]
+>
+> <details>
+> <summary>Firewall rules blocked me from connecting to one or more addresses (expand for details)</summary>
+>
+> #### I tried to connect to the following addresses, but was blocked by firewall rules:
+>
+> - `scarf.sh`
+>
+> If you need me to access, download, or install something from one of these locations, you can either:
+>
+> - Configure [Actions setup steps](https://gh.io/copilot/actions-setup-steps) to set up my environment, which run before the firewall is enabled
+> - Add the appropriate URLs or hosts to the custom allowlist in this repository's [Copilot coding agent settings](https://github.com/gckarol10/api-reports/settings/copilot/coding_agent) (admins only)
+>
+> </details>
+
+<!-- START COPILOT CODING AGENT SUFFIX -->
+
+
+
+<details>
+
+<summary>Original prompt</summary>
+
+> - Incident Reporting
+>   Allow issue reporting (done)
+>   Required fields if possible, such as incident description and photo/video
+>   Confirmation of submission
+> 
+> - A direct communication channel
+>   Chat or messaging channel for questions
+>   Quick responses regarding incident statuses
+>   Possibility of a response to the citizen if necessary from someone within the city hall
+> 
+> - Request tracking
+>   Real-time tracking
+>   If possible, an estimated timeframe for updating statuses
+
+
+</details>
+
+*This pull request was created as a result of the following prompt from Copilot chat.*
+> - Incident Reporting
+>   Allow issue reporting (done)
+>   Required fields if possible, such as incident description and photo/video
+>   Confirmation of submission
+> 
+> - A direct communication channel
+>   Chat or messaging channel for questions
+>   Quick responses regarding incident statuses
+>   Possibility of a response to the citizen if necessary from someone within the city hall
+> 
+> - Request tracking
+>   Real-time tracking
+>   If possible, an estimated timeframe for updating statuses
+
+<!-- START COPILOT CODING AGENT TIPS -->
+---
+
+✨ Let Copilot coding agent [set things up for you](https://github.com/gckarol10/api-reports/issues/new?title=✨+Set+up+Copilot+instructions&body=Configure%20instructions%20for%20this%20repository%20as%20documented%20in%20%5BBest%20practices%20for%20Copilot%20coding%20agent%20in%20your%20repository%5D%28https://gh.io/copilot-coding-agent-tips%29%2E%0A%0A%3COnboard%20this%20repo%3E&assignees=copilot) — coding agent works faster and does higher quality work when set up for your repo.
+
+
+
+--------- PR 2 -------------
+
+Implements enterprise-grade user management extending basic JWT auth with email verification, password reset, 2FA, profile management, and activity tracking.
+
+## Schema Changes
+Extended `User` schema with:
+- Email verification: `verificationCode`, `verificationCodeExpires`
+- Password reset: `resetToken`, `resetTokenExpires`
+- Profile: `profilePicture`, `preferences` (notifications, language, theme)
+- Security: `twoFactorSecret`, `twoFactorEnabled`, `isActive`
+- Analytics: `lastLogin`, `reportCount`, `reputation`, `activityLog[]`
+
+## Email Service
+New `EmailService` module using nodemailer for transactional emails:
+- Verification codes (6-digit, 24h expiry)
+- Password reset links (1h expiry)
+- Welcome notifications
+
+## Authentication Enhancements
+**Email Verification Flow:**
+```typescript
+POST /auth/signup → sends verification code
+POST /auth/verify-email → activates account
+POST /auth/resend-verification → reissues code
+```
+
+**2FA (TOTP):**
+```typescript
+POST /auth/enable-2fa → returns QR code URL + secret
+POST /auth/verify-2fa → activates 2FA
+POST /auth/signin + twoFactorCode → validates token
+```
+
+**Password Reset:**
+```typescript
+POST /auth/request-password-reset → emails secure token
+POST /auth/reset-password → updates password with token
+```
+
+## Profile Management
+- `POST /auth/upload-profile-picture` - Multer upload with Sharp auto-resize (300x300, 90% JPEG)
+- `PATCH /auth/preferences` - Update notifications, language, theme
+- `POST /auth/deactivate|reactivate` - Soft account deletion
+
+## Security Considerations
+- Passwords: bcrypt cost 12
+- Tokens: 32-byte crypto random hex
+- Sensitive fields: `select: false` in schema
+- Activity logging on all auth events
+- Account status validation in JWT strategy
+
+## Testing
+Added 17 unit tests covering signup, signin, email verification, password reset, preferences, 2FA, and account lifecycle.
+
+## Dependencies
+- `nodemailer` - SMTP email delivery
+- `sharp` - Image processing
+- `speakeasy` - TOTP 2FA
+
+> [!WARNING]
+>
+> <details>
+> <summary>Firewall rules blocked me from connecting to one or more addresses (expand for details)</summary>
+>
+> #### I tried to connect to the following addresses, but was blocked by firewall rules:
+>
+> - `scarf.sh`
+>   - Triggering command: `node ./report.js` (dns block)
+>
+> If you need me to access, download, or install something from one of these locations, you can either:
+>
+> - Configure [Actions setup steps](https://gh.io/copilot/actions-setup-steps) to set up my environment, which run before the firewall is enabled
+> - Add the appropriate URLs or hosts to the custom allowlist in this repository's [Copilot coding agent settings](https://github.com/gckarol10/api-reports/settings/copilot/coding_agent) (admins only)
+>
+> </details>
+
+<!-- START COPILOT CODING AGENT SUFFIX -->
+
+
+
+<details>
+
+<summary>Original prompt</summary>
+
+> Enhanced User Management and Profile System
+> 
+> ## Task: Implement Advanced User Profile Management with Email Verification
+> 
+> ### Description
+> Create a comprehensive user management system that goes beyond basic authentication. Users need detailed profiles, email verification, and enhanced security features.
+> 
+> ### Requirements
+> - Implement email verification system with verification codes sent via email service
+> - Add user profile picture upload functionality with image resizing and optimization
+> - Create user preferences system (notification settings, language, theme)
+> - Add password reset functionality with secure token-based reset links
+> - Implement account deactivation/reactivation for both citizens and city hall staff
+> - Add user activity tracking (last login, registration date, report count)
+> - Create user reputation system based on report quality and community feedback
+> - Add two-factor authentication (2FA) option for enhanced security
+> 
+> ### Technical Details
+> - Use nodemailer or similar for email services
+> - Implement image processing with sharp library
+> - Store user preferences in MongoDB user schema
+> - Create verification tokens with expiration
+> - Add rate limiting for sensitive operations
+> 
+> ### Acceptance Criteria
+> - Users must verify email before full account activation
+> - Profile pictures are automatically resized to standard dimensions
+> - Password reset tokens expire after 1 hour
+> - User preferences are persisted and applied across sessions
+> - Activity logs are maintained for security auditing
+> 
+> #github-pull-request_copilot-coding-agent
+
+
+</details>
+
+Created from VS Code via the [GitHub Pull Request](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github) extension.
+
+<!-- START COPILOT CODING AGENT TIPS -->
+---
+
+💬 We'd love your input! Share your thoughts on Copilot coding agent in our [2 minute survey](https://gh.io/copilot-coding-agent-survey).
